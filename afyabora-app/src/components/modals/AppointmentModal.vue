@@ -62,7 +62,7 @@
                 </div>
                 <div class="flex justify-end gap-2">
                     <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">submit</button>  
-                    <button @click="openModal = false" class="bg-violet-950 hover:bg-violet-800 text-white font-bold py-2 px-4 rounded-md">close</button>
+                    <button @click="openModal = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">close</button>
                 </div>
             </form>
         </div>

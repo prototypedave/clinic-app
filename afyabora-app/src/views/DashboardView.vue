@@ -7,7 +7,7 @@
       <div class="flex m-4">
         <div class="flex-1 grid grid-cols-3 gap-4 max-h-48 text-base">
           <Appointments />
-          <Appointments />
+          <Expense />
           <Appointments />
           <Appointments />
           <Appointments />
@@ -28,6 +28,7 @@ import AdminHeader from '@/components/AdminHeader.vue';
 import SideBar from '@/components/SideBar.vue';
 import AppointmentCalender from '@/components/AppointmentCalender.vue';
 import Appointments from '@/components/modals/AppointmentModal.vue';
+import Expense from '@/components/modals/ExpenseModal.vue';
 
 export default {
   components: {
@@ -35,6 +36,7 @@ export default {
     SideBar,
     AppointmentCalender,
     Appointments,
+    Expense,
   }
 }
 </script>
