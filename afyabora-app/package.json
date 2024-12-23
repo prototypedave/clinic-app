@@ -1,0 +1,63 @@
+{
+  "name": "afyabora-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/vue3": "^6.1.15",
+    "@heroicons/vue": "^2.2.0",
+    "@schedule-x/calendar-controls": "^2.12.1",
+    "@schedule-x/drag-and-drop": "^2.12.1",
+    "@schedule-x/event-modal": "^2.12.1",
+    "@schedule-x/event-recurrence": "^2.12.1",
+    "@schedule-x/scroll-controller": "^2.12.1",
+    "@schedule-x/theme-default": "^2.12.1",
+    "@schedule-x/vue": "^2.11.0",
+    "core-js": "^3.8.3",
+    "healthicons": "^2.0.0",
+    "heroicons": "^2.2.0",
+    "qalendar": "^3.9.0",
+    "vue": "^3.2.13",
+    "vue-router": "^4.5.0",
+    "vue-simple-calendar": "^7.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}
