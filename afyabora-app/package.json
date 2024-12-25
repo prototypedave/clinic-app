@@ -20,6 +20,7 @@
     "@schedule-x/scroll-controller": "^2.12.1",
     "@schedule-x/theme-default": "^2.12.1",
     "@schedule-x/vue": "^2.11.0",
+    "axios": "^1.7.8",
     "core-js": "^3.8.3",
     "healthicons": "^2.0.0",
     "heroicons": "^2.2.0",

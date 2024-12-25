@@ -8,12 +8,29 @@
         <div class="flex-1 grid grid-cols-3 gap-4 max-h-48 text-base">
           <Appointments />
           <Expense />
-          <Appointments />
-          <Appointments />
-          <Appointments />
-          <Appointments />
-          <Appointments />
-          <Appointments />
+          <Medicine />
+          <Patient />
+          <Employee />
+          <Note />
+          <Payment />
+          <SignOut />
+          {}
+          <div class="col-span-3 w-full bg-white h-44 shadow-2xl text-violet-950 p-4 overflow-y-auto">
+            <h3 class="text-center text-lg font-bold mb-4">White Board</h3>
+            <div class="space-y-4">
+              <!-- Notice Item -->
+              <div class="bg-violet-200 p-3 rounded-md shadow-md">
+                <p class="text-sm"><strong>John Doe</strong> <span class="text-gray-500 text-xs">at 10:30 AM</span></p>
+                <p class="text-gray-800 text-sm mt-1">This is a sample notice message for the whiteboard.</p>
+              </div>
+              <!-- Notice Item -->
+              <div class="bg-violet-200 p-3 rounded-md shadow-md">
+                <p class="text-sm"><strong>Jane Smith</strong> <span class="text-gray-500 text-xs">at 11:00 AM</span></p>
+                <p class="text-gray-800 text-sm mt-1">Another example notice to display important updates.</p>
+              </div>
+            </div>
+          </div>
+
         </div>
         <div class="flex-1 ml-8">
           <AppointmentCalender />
@@ -29,6 +46,12 @@ import SideBar from '@/components/SideBar.vue';
 import AppointmentCalender from '@/components/AppointmentCalender.vue';
 import Appointments from '@/components/modals/AppointmentModal.vue';
 import Expense from '@/components/modals/ExpenseModal.vue';
+import Medicine from '@/components/modals/MedicineModal.vue';
+import Patient from '@/components/modals/PatientModal.vue';
+import Employee from '@/components/modals/EmployeeModal.vue';
+import Note from '@/components/modals/NoteModal.vue';
+import Payment from '@/components/modals/PaymentModal.vue';
+import SignOut from '@/components/modals/SignOutModal.vue';
 
 export default {
   components: {
@@ -37,6 +60,12 @@ export default {
     AppointmentCalender,
     Appointments,
     Expense,
+    Medicine,
+    Patient,
+    Employee,
+    Note,
+    Payment,
+    SignOut,
   }
 }
 </script>

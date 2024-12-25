@@ -52,28 +52,20 @@
     const firstName = ref('');
     const lastName = ref('');
     const title = ref('');
-    const submitStatus = ref('');
-    const submitMessage = ref('');
 
     function showAlert(message) {
         alert.value = { visible: true, message };
         setTimeout(() => {
             alert.value.visible = false;
-        }, 3000); // Alert disappears after 3 seconds
+        }, 3000); 
     }
 
-    // Expense Submission Handler
     function submitExpense() {
         if (expensePurpose.value && expenseAmount.value) {
             showAlert('Appointment submitted successfully!');
             openModal.value = false;
             reset();
         }
-    }
-
-    function closeAlert() {
-        submitStatus.value = '';
-        submitMessage.value = '';
     }
 
     function reset () {

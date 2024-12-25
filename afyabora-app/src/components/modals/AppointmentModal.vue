@@ -20,7 +20,7 @@
                     </div>
                     <div class="flex flex-col">
                         <label for="date" class="block text-sm text-left mb-2 font-medium">Date</label>
-                        <input id="date" v-model="date" type="date" class="mt-1 pl-2 block w-full text-sm py-2 border focus:border-violet-950 rounded-md shadow-sm" required/>
+                        <input id="date" v-model="date" type="date" class="mt-1 pl-2 block w-full text-sm py-2 border focus:border-violet-950 rounded-md shadow-sm" :min="today" required/>
                     </div>
                     <div class="flex flex-col">
                         <label for="startTime" class="block text-sm text-left mb-2 font-medium">Start</label>
@@ -75,6 +75,7 @@
 
     const openModal = ref(false);
     const alert = ref({ visible: false, message: '' });
+    const today = new Date().toISOString().split('T')[0];
 
     const meetingType = ref('');
     const customLocation = ref('');
