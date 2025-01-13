@@ -5,7 +5,8 @@ export const useAuthStore = defineStore('auth', {
     accessToken: null,
     refreshToken: null,
     user: null,
-    error: null, // Store error message
+    error: null, 
+    role: null,
   }),
   actions: {
     async login({ email, password }) {
@@ -29,6 +30,7 @@ export const useAuthStore = defineStore('auth', {
         const data = await response.json();
         this.accessToken = data.access_token;
         this.refreshToken = data.refresh_token;
+        this.role = data.role;
 
         // Fetch user profile after login
         const userResponse = await fetch("http://127.0.0.1:8000/users/profile", {
@@ -42,17 +44,18 @@ export const useAuthStore = defineStore('auth', {
           this.user = userData;
         }
 
-        return true; // Indicate success
+        return true; 
       } catch (error) {
         console.error(error);
-        throw error; // Allow the caller to handle errors
+        throw error; 
       }
     },
     logout() {
       this.accessToken = null;
       this.refreshToken = null;
       this.user = null;
-      this.error = null; // Clear error on logout
+      this.error = null;
+      this.role = null
     },
     async refreshAccessToken() {
       try {
@@ -81,6 +84,7 @@ export const useAuthStore = defineStore('auth', {
     isAuthenticated: (state) => !!state.accessToken,
     getUser: (state) => state.user,
     getAccessToken: (state) => state.accessToken,
-    getError: (state) => state.error, // Getter to access the error message
+    getError: (state) => state.error,
+    getRole: (state) => state.role,
   },
 });

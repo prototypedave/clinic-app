@@ -22,7 +22,7 @@ class LoginView(APIView):
             )
 
             # Create access and refresh tokens
-            expires = now() + timedelta(seconds=3600)  # Set token expiration (1 hour)
+            expires = now() + timedelta(seconds=3600)  
             access_token = AccessToken.objects.create(
                 user=user,
                 scope="read write",
@@ -49,6 +49,8 @@ class LoginView(APIView):
                 session.token = access_token
                 session.save()
 
+            user_role = 'admin' if user.is_staff else 'user'
+
             # Return tokens in the response
             return Response({
                 'access_token': access_token.token,
@@ -56,6 +58,7 @@ class LoginView(APIView):
                 'expires_in': 3600, 
                 'token_type': 'Bearer',
                 'message': 'Login successful',
+                'role': user_role,
             })
 
         return Response({'error': 'Invalid username or password'}, status=401)

@@ -57,7 +57,12 @@
                 try {
                     const success = await authStore.login({ email: this.email, password: this.password });
                     if (success) {
-                      this.$router.push("/admin/dashboard");
+                      if (authStore.getRole === "admin") {
+                          this.$router.push("/admin/dashboard");
+                      } else {
+                          this.$router.push("/dashboard");
+                      }
+                      
                     }
                 } catch (err) {
                     console.error(err);
