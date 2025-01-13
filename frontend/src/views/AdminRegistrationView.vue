@@ -9,8 +9,7 @@
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-auto lg:py-0">
             <a href="#" class="flex items-center mb-4 text-2xl font-semibold mt-10">
                 <div>
-                    <h1 class="text-center text-2xl font-bold tracking-tight text-violet-950 hover:text-indigo-500">Admin Registration</h1>
-                    <p class="text-center mt-2 text-sm font-medium tracking-tight text-violet-500">Create an account to get started</p>
+                    <h1 class="text-center text-2xl font-bold tracking-tight text-violet-950 hover:text-indigo-500">Welcome, Register as new Admin</h1>
                 </div>
             </a>
             <div class="w-full bg-violet-950 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
@@ -71,7 +70,7 @@
                         <button type="submit" class="w-full text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Create an account</button>
                         <p class="text-sm font-light text-violet-300">
                             Already have an account?
-                            <a href="/sign-in" class="font-medium text-indigo-400 hover:underline">Login here</a>
+                            <a href="/login" class="font-medium text-indigo-400 hover:underline">Login here</a>
                         </p>
                     </form>
                 </div>
@@ -136,6 +135,8 @@ export default {
         showAlert(message) {
             this.alert = { visible: true, message };
             setTimeout(() => {
+                this.resetForm();
+                this.$router.push({ name: 'sign-in' });
                 this.alert.visible = false;
             }, 3000); 
         },
@@ -157,7 +158,7 @@ export default {
 
         async handleRegistration() {
             try {
-                const response = await fetch("http://127.0.0.1:8000/api/register/", {
+                const response = await fetch("http://127.0.0.1:8000/users/admin-registration", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -176,14 +177,12 @@ export default {
                     const errorMessage = errorData.message || 'An unknown error occurred';
                     this.error = true;
                     this.showAlert(errorMessage);
-                    this.$router.push({ name: 'SignIn' });
                     return;
                 }
 
                 const data = await response.json();
                 this.showAlert(data.message); 
-                this.resetForm();
-                this.$router.push({ name: 'SignIn' });
+                
             } catch (error) {
                 let status = 410;
                 if (error.message === "Failed to fetch") {
