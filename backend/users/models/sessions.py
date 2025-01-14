@@ -11,5 +11,4 @@ class UserSession(models.Model):
 
 
     def is_inactive(self):
-        # Define inactivity logic (e.g., 1-hour timeout)
         return self.last_activity < now() - timedelta(hours=1)
