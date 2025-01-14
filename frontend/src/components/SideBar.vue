@@ -42,40 +42,26 @@
       </div>
       <div class="border mx-6 border-violet-800"></div>
       <div class="flex place-items-center my-8 mx-6 gap-6">
-        <img :src="dp" class="w-10 h-10 mr-2 rounded-full" />
-        <span className="flex-1 text-sm font-semibold ">{{ user }}</span>
+        <img :src="user.image" class="w-10 h-10 mr-2 rounded-full" />
+        <span className="flex-1 text-sm font-semibold ">{{ user.name }}</span>
 
         <UserProfile 
-          :maleImage="'@/assets/male.png'"
-          :name="user"
-          :role="role"/>
+          
+          :name="user.name"
+          :role="user.role"/>
       </div>
     </div>
 </template>
 
-<script>
+<script setup>
   import { useAuthStore } from '@/stores/auth';
   import UserProfile from '@/components/UserProfile.vue';
   import defaultProfileImage from '@/assets/male.png';
 
-  export default {
-    components: {
-      UserProfile,
-    },
-    computed: {
-      user() {
-          const authStore = useAuthStore();
-          return authStore.getUser?.name || 'Guest';
-      },
-      role() {
-          const authStore = useAuthStore();
-          return authStore.getRole || 'Staff';
-      },
-      dp() {
-          const authStore = useAuthStore();
-          return authStore.getUser?.profile_image || defaultProfileImage;
-      }
-    }
-
+  const authStore = useAuthStore();
+  const user = {
+    image: authStore.getUser?.profile_image || defaultProfileImage,
+    name: authStore.getUser?.name || "Guest",
+    role: authStore.getRole || "guest"
   };
 </script>
