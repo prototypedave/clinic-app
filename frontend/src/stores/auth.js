@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', {
         if (!response.ok) {
           const errorData = await response.json();
           this.error = errorData.error || "Login failed";
-          throw new Error(this.error); // Store error in state
+          throw new Error(this.error); 
         }
 
         const data = await response.json();
