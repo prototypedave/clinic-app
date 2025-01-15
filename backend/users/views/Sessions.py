@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate
 from oauth2_provider.models import AccessToken, RefreshToken, Application
 from oauthlib.common import generate_token
@@ -62,3 +63,16 @@ class LoginView(APIView):
             })
 
         return Response({'error': 'Invalid username or password'}, status=401)
+    
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            user_session = UserSession.objects.get(user=request.user)
+            user_session.token.delete() 
+            user_session.delete()       
+            return Response({'message': 'Logged out successfully'})
+        except UserSession.DoesNotExist:
+            return Response({'error': 'Session not found'}, status=400)

@@ -1,11 +1,12 @@
 from .UserRegistration import SuperuserCheckView, AdminRegistrationView
-from .SignIn import LoginView
+from .Sessions import LoginView, LogoutView
 from .Profile import UserProfileView, UpdateProfileImageView
 
 __all__ = [
     "SuperuserCheckView", 
     "AdminRegistrationView",
     "LoginView",
+    "LogoutView",
     "UserProfileView",
     "UpdateProfileImageView",
 ]
