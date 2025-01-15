@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth', {
   }),
   actions: {
     async login({ email, password }) {
-      this.error = null; // Clear previous error
+      this.error = null; 
 
       try {
         const response = await fetch("http://127.0.0.1:8000/users/login", {
@@ -44,6 +44,11 @@ export const useAuthStore = defineStore('auth', {
           this.user = userData;
         }
 
+        localStorage.setItem('authAccessToken', data.accessToken);
+        localStorage.setItem('authRefreshToken', data.refreshToken);
+        localStorage.setItem('authRole', data.role);
+        localStorage.setItem('authUser', JSON.stringify(this.user));
+
         return true; 
       } catch (error) {
         console.error(error);
@@ -67,6 +72,11 @@ export const useAuthStore = defineStore('auth', {
         this.user = null;
         this.error = null;
         this.role = null;
+
+        localStorage.removeItem('authAccessToken');
+        localStorage.removeItem('authRefreshToken');
+        localStorage.removeItem('authRole');
+        localStorage.removeItem('authUser');
 
         return true;  
       } catch (error) {
@@ -113,6 +123,19 @@ export const useAuthStore = defineStore('auth', {
       } catch (error) {
         console.error(error);
         throw error; 
+      }
+    },
+    initializeAuthState() {
+      const accessToken = localStorage.getItem('authAccessToken');
+      const refreshToken = localStorage.getItem('authRefreshToken');
+      const role = localStorage.getItem('authRole');
+      const user = localStorage.getItem('authUser');
+
+      if (accessToken && refreshToken && role && user) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.role = role;
+        this.user = JSON.parse(user); 
       }
     },
   },

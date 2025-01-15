@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,7 @@ const router = createRouter({
       path: '/admin/dashboard',
       name: 'admin-home',
       component: () => import('../views/AdminDashboardView.vue'),
+      meta: { requiresAuth: true, role: 'admin' },
     },
     {
       path: '/:catchAll(.*)',
@@ -30,5 +32,23 @@ const router = createRouter({
     }
   ],
 })
+
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore(); 
+  const isAuthenticated = !!authStore.isAuthenticated; 
+
+  if (to.meta.requiresAuth) {
+    if (!isAuthenticated) {
+      return next({ name: 'sign-in' });
+    }
+
+    if (to.meta.role && authStore.getRole !== to.meta.role) {
+      return next({ name: 'not-found' }); 
+    }
+  }
+
+  next(); 
+});
 
 export default router
