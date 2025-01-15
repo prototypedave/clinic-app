@@ -1,4 +1,4 @@
-from rest_framework.views import APIView
+"""from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from oauth2_provider.models import AccessToken, RefreshToken, Application
@@ -62,3 +62,4 @@ class LoginView(APIView):
             })
 
         return Response({'error': 'Invalid username or password'}, status=401)
+"""

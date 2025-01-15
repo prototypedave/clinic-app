@@ -1,4 +1,4 @@
-from django.db import models
+"""from django.db import models
 from django.contrib.auth.models import User
 from oauth2_provider.models import AccessToken
 from django.utils.timezone import now
@@ -12,3 +12,4 @@ class UserSession(models.Model):
 
     def is_inactive(self):
         return self.last_activity < now() - timedelta(hours=1)
+"""

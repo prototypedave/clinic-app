@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticated
+"""from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from ..models import Profile
@@ -33,3 +33,4 @@ class UserProfileView(APIView):
             'name': user.get_full_name(),
             'profile_image': request.build_absolute_uri(profile_image_url),
         })
+"""

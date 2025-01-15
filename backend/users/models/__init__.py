@@ -1,7 +1,5 @@
-from .sessions import UserSession
-from .profile import Profile
+from .Users import User
 
 __all__ = [
-    "UserSession",
-    "Profile",
+    "User",
 ]
