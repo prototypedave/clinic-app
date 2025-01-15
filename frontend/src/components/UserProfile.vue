@@ -36,8 +36,8 @@
 	    	<p class="font-thin text-sm text-grey-900 text-center">{{ role }}</p>
 	    </div>
 	    <div class="flex justify-center gap-2 mt-10 text-sm">
-              <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">Logout</button>  
-              <button @click="openModal = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">close</button>
+              <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md" @click="handleLogout">logout</button>  
+              <button @click="handleClose" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">close</button>
           </div>
       </div>
     </div>
@@ -48,6 +48,7 @@
 import { ref } from "vue";
 import { useAuthStore } from '@/stores/auth';
 import defaultProfileImage from '@/assets/male.png';
+import router from '@/router';
 
 defineProps({
   name: String,
@@ -85,14 +86,33 @@ const handleImageChange = async (event) => {
           throw new Error('Failed to upload image');
         }
 
-        const success = await authStore.refreshUserData();
-        console.log(success);
-
       } catch (error) {
         console.error('Error uploading image:', error);
       }
     };
     reader.readAsDataURL(file);
   }
+};
+
+const handleClose = async () => {
+	const success = await authStore.refreshUserData();
+    if (!success) {
+    	Alert("Error making changes");
+    } else {
+    	openModal.value = false;
+    }
+};
+
+const handleLogout = async () => {
+	try {
+        const success = await authStore.logout();
+
+        if (success) {
+	        router.push({name: 'home'});
+	        openModal.value = false;
+	    }
+    } catch (error) {
+        console.error("Server error:", error);
+    }	
 };
 </script>

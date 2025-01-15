@@ -50,12 +50,29 @@ export const useAuthStore = defineStore('auth', {
         throw error; 
       }
     },
-    logout() {
-      this.accessToken = null;
-      this.refreshToken = null;
-      this.user = null;
-      this.error = null;
-      this.role = null
+    async logout() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/users/logout', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${this.accessToken}`, 
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Error logging out of your account');
+        }
+        this.accessToken = null;
+        this.refreshToken = null;
+        this.user = null;
+        this.error = null;
+        this.role = null;
+
+        return true;  
+      } catch (error) {
+          console.error("Server Error:", error);
+      } 
+      
     },
     async refreshAccessToken() {
       try {
@@ -76,7 +93,7 @@ export const useAuthStore = defineStore('auth', {
         this.accessToken = data.access_token;
       } catch (error) {
         console.error("Failed to refresh token:", error);
-        this.logout();
+        await this.logout();
       }
     },
     async refreshUserData() {
