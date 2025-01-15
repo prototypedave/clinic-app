@@ -7,7 +7,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
 class SuperuserCheckView(APIView):
     def get(self, request):
         # Check if a superuser exists
