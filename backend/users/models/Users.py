@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
 from ..managers import UserManager
 
@@ -43,3 +44,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         '''
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+    def get_avatar(self):
+        '''
+        Returns the profile image of the user
+        '''
+        return self.avatar.url if self.avatar else settings.MEDIA_URL + 'avatars/default.png'
+    
+    def get_title(self):
+        '''
+        Returns the user title name
+        '''
+        return self.title

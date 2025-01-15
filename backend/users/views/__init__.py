@@ -1,6 +1,6 @@
 from .UserRegistration import SuperuserCheckView, AdminRegistrationView
 from .SignIn import LoginView
-#from .Profile import UserProfileView, UpdateProfileImageView
+from .Profile import UserProfileView
 
 __all__ = [
     "SuperuserCheckView", 
