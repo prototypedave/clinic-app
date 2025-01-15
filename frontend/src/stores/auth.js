@@ -79,6 +79,25 @@ export const useAuthStore = defineStore('auth', {
         this.logout();
       }
     },
+    async refreshUserData() {
+      try {
+        const userResponse = await fetch("http://127.0.0.1:8000/users/profile", {
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`,
+          },
+        });
+
+        if (userResponse.ok) {
+          const userData = await userResponse.json();
+          this.user = userData;
+        }
+
+        return true; 
+      } catch (error) {
+        console.error(error);
+        throw error; 
+      }
+    },
   },
   getters: {
     isAuthenticated: (state) => !!state.accessToken,

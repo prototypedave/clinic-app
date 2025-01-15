@@ -57,7 +57,7 @@ defineProps({
 const authStore = useAuthStore();
 
 const openModal = ref(false);
-const profImage = ref(authStore.getUser?.profile_image || defaultProfileImage);
+const profImage = ref(authStore.getUser?.avatar || defaultProfileImage);
 const accessToken = authStore.getAccessToken;
 
 const handleImageChange = async (event) => {
@@ -70,10 +70,10 @@ const handleImageChange = async (event) => {
     reader.onload = async (e) => {
       profImage.value = e.target.result;
       const formData = new FormData();
-      formData.append('profile_image', file);
+      formData.append('avatar', file);
 
       try {
-        const response = await fetch('http://127.0.0.1:8000/users/update-profile-image/', {
+        const response = await fetch('http://127.0.0.1:8000/users/update-profile-image', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${accessToken}`, 
@@ -84,6 +84,9 @@ const handleImageChange = async (event) => {
         if (!response.ok) {
           throw new Error('Failed to upload image');
         }
+
+        const success = await authStore.refreshUserData();
+        console.log(success);
 
       } catch (error) {
         console.error('Error uploading image:', error);

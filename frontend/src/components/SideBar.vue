@@ -45,23 +45,31 @@
         <img :src="user.image" class="w-10 h-10 mr-2 rounded-full" />
         <span className="flex-1 text-sm font-semibold ">{{ user.name }}</span>
 
-        <UserProfile 
-          
+        <UserProfile          
           :name="user.name"
           :role="user.role"/>
       </div>
     </div>
 </template>
 
-<script setup>
+<script>
   import { useAuthStore } from '@/stores/auth';
   import UserProfile from '@/components/UserProfile.vue';
   import defaultProfileImage from '@/assets/male.png';
 
-  const authStore = useAuthStore();
-  const user = {
-    image: authStore.getUser?.profile_image || defaultProfileImage,
-    name: authStore.getUser?.name || "Guest",
-    role: authStore.getRole || "guest"
+  export default {
+    components: {
+      UserProfile,
+    },
+    computed: {
+      user() {
+        const authStore = useAuthStore();
+        return {
+          image: authStore.getUser?.avatar || defaultProfileImage,
+          name: authStore.getUser?.name || "Guest",
+          role: authStore.getRole || "guest"
+        };
+      },
+    },
   };
 </script>
