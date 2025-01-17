@@ -1,4 +1,7 @@
 import { defineStore } from 'pinia';
+import router from '@/router';
+
+let activityTimeout = null;
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -9,6 +12,35 @@ export const useAuthStore = defineStore('auth', {
     role: null,
   }),
   actions: {
+    startInactivityTimer() {
+      // Clear any existing timer
+      clearTimeout(activityTimeout);
+
+      // Set a new timer for inactivity
+      activityTimeout = setTimeout(async () => {
+        console.warn("User inactive for too long. Logging out...");
+        await this.logout();
+      }, 1 * 60 * 1000); 
+    },
+    resetInactivityTimer() {
+      this.startInactivityTimer(); // Restart the timer
+    },
+    monitorActivity() {
+      //event listeners to reset the timer on user activity
+      window.addEventListener("mousemove", this.resetInactivityTimer);
+      window.addEventListener("keydown", this.resetInactivityTimer);
+      window.addEventListener("click", this.resetInactivityTimer);
+
+      // Start the inactivity timer
+      this.startInactivityTimer();
+    },
+    stopMonitoringActivity() {
+      // Remove event listeners and clear the timer
+      window.removeEventListener("mousemove", this.resetInactivityTimer);
+      window.removeEventListener("keydown", this.resetInactivityTimer);
+      window.removeEventListener("click", this.resetInactivityTimer);
+      clearTimeout(activityTimeout);
+    },
     async login({ email, password }) {
       this.error = null; 
 
@@ -26,6 +58,8 @@ export const useAuthStore = defineStore('auth', {
           this.error = errorData.error || "Login failed";
           throw new Error(this.error); 
         }
+
+        this.monitorActivity();
 
         const data = await response.json();
         this.accessToken = data.access_token;
@@ -72,13 +106,15 @@ export const useAuthStore = defineStore('auth', {
         this.user = null;
         this.error = null;
         this.role = null;
+        this.stopMonitoringActivity();
 
         localStorage.removeItem('authAccessToken');
         localStorage.removeItem('authRefreshToken');
         localStorage.removeItem('authRole');
         localStorage.removeItem('authUser');
 
-        return true;  
+        router.push({ name: 'sign-in' });
+        return true; 
       } catch (error) {
           console.error("Server Error:", error);
       } 
@@ -140,7 +176,7 @@ export const useAuthStore = defineStore('auth', {
     },
   },
   getters: {
-    isAuthenticated: (state) => !!state.accessToken,
+    isAuthenticated: (state) => !!state.user,
     getUser: (state) => state.user,
     getAccessToken: (state) => state.accessToken,
     getError: (state) => state.error,
