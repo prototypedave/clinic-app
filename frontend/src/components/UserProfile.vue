@@ -108,7 +108,6 @@ const handleLogout = async () => {
         const success = await authStore.logout();
 
         if (success) {
-	        router.push({name: 'home'});
 	        openModal.value = false;
 	    }
     } catch (error) {

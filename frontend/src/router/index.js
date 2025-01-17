@@ -1,5 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+import { useTokenStore } from '@/stores/resetToken';
+import axios from 'axios';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,7 +31,32 @@ const router = createRouter({
       path: '/:catchAll(.*)',
       name: 'not-found',
       component: () => import('../components/errors/PageNotFound.vue'),
-    }
+    },
+    {
+      path: '/reset/password',
+      name: 'reser-password',
+      component: () => import('../views/ResetPasswordView.vue'),
+    },
+    {
+      path: '/change-password/:token',
+      name: 'new-password',
+      component: () => import('../views/ChangePasswordView.vue'),
+      beforeEnter: async (to, from, next) => {
+        try {
+          const response = await axios.get(`http://localhost:8000/users/validate-token/${to.params.token}`);
+          if (response.data.valid) {
+            const tokenStore = useTokenStore();
+            tokenStore.saveResetToken(to.params.token);
+            next();
+          } else {
+            next({ name: 'not-found', params: { message: response.data.error } });
+          }
+        } catch (error) {
+          console.error('Token validation error:', error);
+          next({ name: 'not-found', query: { message: error.message, origin: "/", status: 410 } });
+        }
+      },
+    },
   ],
 })
 
