@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
+    'users.middleware.UpdateLastActivityMiddleware',
 ]
 
 ROOT_URLCONF = 'afya.urls'
@@ -136,6 +137,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [os.getenv('FRONTEND_ORIGIN')]
+CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -148,9 +150,9 @@ AUTHENTICATION_BACKENDS = (
 )
 
 OAUTH2_PROVIDER = {
-    'ACCESS_TOKEN_EXPIRE_SECONDS': 3600,  # Set token expiry (e.g., 1 hour)
-    'REFRESH_TOKEN_EXPIRE_SECONDS': 86400,  # Refresh token expiry (e.g., 1 day)
-    'ROTATE_REFRESH_TOKENS': True,  # Optionally rotate refresh tokens on use
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 3600,  
+    'REFRESH_TOKEN_EXPIRE_SECONDS': 86400,  
+    'ROTATE_REFRESH_TOKENS': True,  
 }
 
 OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'oauth2_provider.AccessToken'
@@ -162,3 +164,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'users.User'
 
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = not DEBUG  
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = not DEBUG

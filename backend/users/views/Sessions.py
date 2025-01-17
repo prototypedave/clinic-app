@@ -23,7 +23,7 @@ class LoginView(APIView):
             )
 
             # Create access and refresh tokens
-            expires = now() + timedelta(seconds=3600)  
+            expires = now() + timedelta(seconds=600)  
             access_token = AccessToken.objects.create(
                 user=user,
                 scope="read write",
@@ -56,7 +56,7 @@ class LoginView(APIView):
             return Response({
                 'access_token': access_token.token,
                 'refresh_token': refresh_token.token,
-                'expires_in': 3600, 
+                'expires_in': 600, 
                 'token_type': 'Bearer',
                 'message': 'Login successful',
                 'role': user_role,
