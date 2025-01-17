@@ -168,3 +168,16 @@ CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = not DEBUG  
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = not DEBUG
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_PORT = 587  
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False  
+EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL')  
+EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_PASS') 
+
+FRONTEND_ADDRESS = os.getenv('FRONTEND_ORIGIN')
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',]
