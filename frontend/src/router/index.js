@@ -44,16 +44,24 @@ const router = createRouter({
       beforeEnter: async (to, from, next) => {
         try {
           const response = await axios.get(`http://localhost:8000/users/validate-token/${to.params.token}`);
+
           if (response.data.valid) {
             const tokenStore = useTokenStore();
             tokenStore.saveResetToken(to.params.token);
             next();
           } else {
-            next({ name: 'not-found', params: { message: response.data.error } });
+            const tokenStore = useTokenStore();
+            tokenStore.clearResetToken(); // Delete token from store
+            await axios.delete(`http://localhost:8000/users/invalidate-token/${to.params.token}`);
+            next({ name: 'home' }); 
           }
         } catch (error) {
+          // Handle validation errors
           console.error('Token validation error:', error);
-          next({ name: 'not-found', query: { message: error.message, origin: "/", status: 410 } });
+          const tokenStore = useTokenStore();
+          tokenStore.clearResetToken(); // Delete token from store
+          await axios.delete(`http://localhost:8000/users/invalidate-token/${to.params.token}`); 
+          next({ name: 'home' }); // Redirect to home
         }
       },
     },
