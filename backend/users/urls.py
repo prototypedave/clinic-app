@@ -10,7 +10,7 @@ urlpatterns = [
     path('profile', views.UserProfileView.as_view(), name='profile'),
     path('update-profile-image', views.UpdateProfileImageView.as_view(), name="update-profile-image"),
     path('send-link', views.SendResetLinkView.as_view(), name="reset-link"),
-    path('validate-token/<uuid:token>/', views.ResetTokenValidationView.as_view(), name="token-validation"),
-    path('valid', views.ValidView.as_view(), name='valid'),
+    path('validate-token/<str:token>/', views.ResetTokenValidationView.as_view(), name="token-validation"),
+    path('invalidate-token/<str:token>/', views.InvalidateTokenView.as_view(), name='valid'),
     path('password-reset/<str:token>/', views.PasswordResetView.as_view, name='password-change')
 ]

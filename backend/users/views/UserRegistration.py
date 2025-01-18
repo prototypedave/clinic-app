@@ -10,6 +10,10 @@ from django.utils.timezone import now, timedelta
 from django.http import JsonResponse
 from django.contrib.auth.hashers import make_password
 from django.conf import settings
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
+from django.utils.http import urlsafe_base64_decode
 
 logger = logging.getLogger(__name__)
 
@@ -34,21 +38,16 @@ class AdminRegistrationView(APIView):
             "errors": serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
     
-   
-RESET_TOKEN_EXPIRATION = 5 * 60
+
+signer = TimestampSigner()
 
 class SendResetLinkView(APIView):
     def post(self, request):
         email = request.data.get('email')
         try:
             user = User.objects.get(email=email)
-            token = str(uuid.uuid4())   
-            # Store the token with the email and timestamp in the cache
-            token_info = {
-                'email': user.email,
-                'created_at': now()
-            }
-            cache.set(token, token_info, timeout=RESET_TOKEN_EXPIRATION)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = signer.sign(uid) 
             reset_link = f'{settings.FRONTEND_ADDRESS}/change-password/{token}'
 
             # Send the email
@@ -69,26 +68,32 @@ RESET_TOKEN = timedelta(minutes=5)
 
 class ResetTokenValidationView(APIView):
     def get(self, request, token):
-        token_info = cache.get(token)
+        try:
+            # Unsigned token and decode user ID
+            uid = signer.unsign(token, max_age=300)  # Token expires in 5 minutes
+            user_id = urlsafe_base64_decode(uid).decode("utf-8")
+            user = User.objects.get(pk=user_id)
+            return JsonResponse({"valid": True, "message": "Token is valid", "user_id": user.id}, status=200)
 
-        if token_info:
-            token_creation_time = token_info.get('created_at')
-            if token_creation_time and now() < token_creation_time + RESET_TOKEN:
-                return Response({'valid': True, 'email': token_info['email']}, status=status.HTTP_200_OK)
-            else:
-                cache.delete(token)
+        except SignatureExpired:
+            cache.delete(token)
+            return JsonResponse({"valid": False, "error": "Token has expired"}, status=400)
+
+        except (BadSignature, User.DoesNotExist):
+            cache.delete(token)
+            return JsonResponse({"valid": False, "error": "Invalid or expired token"}, status=400)
+
+        except Exception as e:
+            return JsonResponse({"valid": False, "error": "Unexpected error", "details": str(e)}, status=500)
         
-        return Response({'valid': False, 'error': 'Invalid or expired token'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-class ValidView(APIView):
-    def get(self, request, token):
-        token_info = cache.get(token)
-        if token_info:
-            token_creation_time = token_info.get('created_at')
-            if token_creation_time and now() < token_creation_time + RESET_TOKEN_EXPIRATION:
-                return JsonResponse({'valid': True})  
-        return JsonResponse({'valid': False, 'error': 'Invalid or expired token'})
+class InvalidateTokenView(APIView):
+    def delete(self, request, token):
+        # Delete token from cache
+        if cache.get(token):
+            cache.delete(token)
+            return JsonResponse({"message": "Token invalidated successfully"}, status=200)
+        return JsonResponse({"error": "Token not found or already expired"}, status=404)
 
 
 class PasswordResetView(APIView):

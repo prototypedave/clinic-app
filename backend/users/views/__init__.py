@@ -1,6 +1,6 @@
 from .UserRegistration import SuperuserCheckView, AdminRegistrationView
 from .UserRegistration import SendResetLinkView, PasswordResetView
-from .UserRegistration import ResetTokenValidationView, ValidView
+from .UserRegistration import ResetTokenValidationView, InvalidateTokenView
 from .Sessions import LoginView, LogoutView
 from .Profile import UserProfileView, UpdateProfileImageView
 
@@ -14,5 +14,5 @@ __all__ = [
     "SendResetLinkView",
     "PasswordResetView",
     "ResetTokenValidationView",
-    "ValidView"
+    "InvalidateTokenView"
 ]
