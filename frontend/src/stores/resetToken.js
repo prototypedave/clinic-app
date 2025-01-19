@@ -7,6 +7,9 @@ export const useTokenStore = defineStore('resetToken', {
 	actions: {
 		saveResetToken (token) {
 			this.resetToken = token;
+		},
+		clearResetToken() {
+			this.resetToken = null;
 		}
 	},
 	getters: {

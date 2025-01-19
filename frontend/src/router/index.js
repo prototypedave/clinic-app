@@ -50,18 +50,19 @@ const router = createRouter({
             tokenStore.saveResetToken(to.params.token);
             next();
           } else {
-            const tokenStore = useTokenStore();
-            tokenStore.clearResetToken(); // Delete token from store
-            await axios.delete(`http://localhost:8000/users/invalidate-token/${to.params.token}`);
-            next({ name: 'home' }); 
+            next({ name: 'not-found' }); 
           }
         } catch (error) {
-          // Handle validation errors
-          console.error('Token validation error:', error);
-          const tokenStore = useTokenStore();
-          tokenStore.clearResetToken(); // Delete token from store
-          await axios.delete(`http://localhost:8000/users/invalidate-token/${to.params.token}`); 
-          next({ name: 'home' }); // Redirect to home
+          // Handle backend errors (expired or invalid token)
+          if (error.response && error.response.status === 400) {
+            console.warn('Token expired or invalid:', error.response.data.error);
+            const tokenStore = useTokenStore();
+            tokenStore.clearResetToken(); // Clear frontend token
+            next({ name: 'home' }); // Redirect to home
+          } else {
+            console.error('Unexpected error:', error);
+            next({ name: 'home' }); // Redirect to home on unexpected errors
+          }
         }
       },
     },

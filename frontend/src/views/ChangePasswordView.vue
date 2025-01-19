@@ -149,7 +149,7 @@ export default {
                 const data = await response.json();
                 this.showAlert(data.message, false); 
                 setTimeout(() => {
-                    this.$router.push({ name: 'SignIn' });
+                    this.$router.push({ name: 'sign-in' });
                     this.resetForm();
                 }, 3000); 
                 
