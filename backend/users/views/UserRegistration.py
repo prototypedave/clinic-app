@@ -69,23 +69,32 @@ RESET_TOKEN = timedelta(minutes=5)
 class ResetTokenValidationView(APIView):
     def get(self, request, token):
         try:
-            # Unsigned token and decode user ID
-            uid = signer.unsign(token, max_age=300)  # Token expires in 5 minutes
+            # Attempt to decode and validate the token
+            uid = signer.unsign(token, max_age=300)  
             user_id = urlsafe_base64_decode(uid).decode("utf-8")
+
+            # If the user exists, return success
             user = User.objects.get(pk=user_id)
             return JsonResponse({"valid": True, "message": "Token is valid", "user_id": user.id}, status=200)
 
         except SignatureExpired:
-            cache.delete(token)
+            # Handle expired tokens specifically
+            cache.delete(token)  
             return JsonResponse({"valid": False, "error": "Token has expired"}, status=400)
 
-        except (BadSignature, User.DoesNotExist):
+        except BadSignature:
+            # Handle invalid tokens
             cache.delete(token)
-            return JsonResponse({"valid": False, "error": "Invalid or expired token"}, status=400)
+            return JsonResponse({"valid": False, "error": "Invalid token"}, status=400)
+
+        except User.DoesNotExist:
+            # Handle case when user does not exist
+            return JsonResponse({"valid": False, "error": "User not found"}, status=404)
 
         except Exception as e:
+            # Handle unexpected errors
             return JsonResponse({"valid": False, "error": "Unexpected error", "details": str(e)}, status=500)
-        
+
 
 class InvalidateTokenView(APIView):
     def delete(self, request, token):
@@ -98,28 +107,39 @@ class InvalidateTokenView(APIView):
 
 class PasswordResetView(APIView):
     def post(self, request, token):
+        # Parse the request body
+        password = request.data.get("password")
+        confirm_password = request.data.get("confirm_password")
+
+        # Check if both passwords are provided
+        if not password or not confirm_password:
+            return JsonResponse({"error": "Both password fields are required"}, status=400)
+
+        # Check if passwords match
+        if password != confirm_password:
+            return JsonResponse({"error": "Passwords do not match"}, status=400)
+
+        # Validate token from cache
         token_info = cache.get(token)
         if not token_info:
-            return Response({'error': 'Invalid or expired token'}, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({"error": "Invalid or expired token"}, status=400)
 
-        # check password and confirmation)
-        password = request.data.get('password')
-        confirm_password = request.data.get('confirm_password')
-
-        if password != confirm_password:
-            return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
-
-        if len(password) < 8:
-            return Response({'error': 'Password must be at least 8 characters long'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Update the password for the user
-        email = token_info['email']
         try:
+            # Get the user by email from the token information
+            email = token_info['email']
             user = User.objects.get(email=email)
+
+            # Update the user's password
             user.password = make_password(password)
             user.save()
+
+            # Remove the token from the cache after a successful reset
             cache.delete(token)
 
-            return Response({'message': 'Password updated successfully'}, status=status.HTTP_200_OK)
+            return JsonResponse({"message": "Password reset successful"}, status=200)
+        
         except User.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return JsonResponse({"error": "User not found"}, status=404)
+
+        except Exception as e:
+            return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)

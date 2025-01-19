@@ -1,6 +1,11 @@
 from datetime import timedelta
 from django.utils.timezone import now
 from .models import UserSession
+from django.core.signing import SignatureExpired, BadSignature
+from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
+from django.http import JsonResponse
+
+signer = TimestampSigner()
 
 class UpdateLastActivityMiddleware:
     def __init__(self, get_response):
@@ -18,3 +23,4 @@ class UpdateLastActivityMiddleware:
                     session.save()
 
         return self.get_response(request)
+
