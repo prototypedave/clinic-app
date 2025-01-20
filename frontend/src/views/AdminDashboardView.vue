@@ -33,7 +33,7 @@
 
         </div>
         <div class="flex-1 ml-8">
-          <AppointmentCalender />
+          <Calender />
         </div>
       </div>
     </div>
@@ -42,12 +42,15 @@
 
 <script>
 import AdminHeader from '@/components/AdminHeader.vue';
+import Calender from '@/components/Calendar.vue';
 import SideBar from '@/components/SideBar.vue';
 
 export default {
   components: {
     AdminHeader,
+    Calender,
     SideBar,
+
   }
 }
 </script>
