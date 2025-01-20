@@ -10,7 +10,7 @@ export const useTokenStore = defineStore('resetToken', {
 		},
 		clearResetToken() {
 			this.resetToken = null;
-		}
+		},
 	},
 	getters: {
 		token: (state) => state.resetToken,

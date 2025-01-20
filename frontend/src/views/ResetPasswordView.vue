@@ -29,6 +29,7 @@
 </template>
 
 <script>
+    import { useTokenStore } from '@/stores/resetToken';
     export default {
         data() {
             return {

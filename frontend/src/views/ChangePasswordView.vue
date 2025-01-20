@@ -135,6 +135,7 @@ export default {
                         password: this.password,
                         confirm_password: this.confirmPassword,
                     }),
+                    credentials: 'include',
                 });
 
                 if (!response.ok) {
