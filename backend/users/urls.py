@@ -1,6 +1,7 @@
 from django.urls import path
 
 from . import views
+from .views import PasswordResetView
 
 urlpatterns = [
     path("admin-registration", views.AdminRegistrationView.as_view(), name='admin-register'),
@@ -12,5 +13,5 @@ urlpatterns = [
     path('send-link', views.SendResetLinkView.as_view(), name="reset-link"),
     path('validate-token/<str:token>/', views.ResetTokenValidationView.as_view(), name="token-validation"),
     path('invalidate-token/<str:token>/', views.InvalidateTokenView.as_view(), name='valid'),
-    path('password-reset/<str:token>/', views.PasswordResetView.as_view, name='password-change')
+    path('password-reset/<str:token>/', PasswordResetView.as_view(), name='password-change'),
 ]

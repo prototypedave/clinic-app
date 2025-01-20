@@ -1,3 +1,5 @@
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -14,6 +16,8 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
 from django.utils.http import urlsafe_base64_decode
+from django.views import View
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +62,6 @@ class SendResetLinkView(APIView):
                 [user.email],
                 fail_silently=False,
             )
-
             return Response({'message': 'Password reset email sent'})
         
         except User.DoesNotExist:
@@ -105,41 +108,22 @@ class InvalidateTokenView(APIView):
         return JsonResponse({"error": "Token not found or already expired"}, status=404)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class PasswordResetView(APIView):
     def post(self, request, token):
-        # Parse the request body
-        password = request.data.get("password")
-        confirm_password = request.data.get("confirm_password")
-
-        # Check if both passwords are provided
-        if not password or not confirm_password:
-            return JsonResponse({"error": "Both password fields are required"}, status=400)
-
-        # Check if passwords match
-        if password != confirm_password:
-            return JsonResponse({"error": "Passwords do not match"}, status=400)
-
-        # Validate token from cache
-        token_info = cache.get(token)
-        if not token_info:
-            return JsonResponse({"error": "Invalid or expired token"}, status=400)
-
         try:
-            # Get the user by email from the token information
-            email = token_info['email']
-            user = User.objects.get(email=email)
+            uid = signer.unsign(token, max_age=300)  
+            user_id = urlsafe_base64_decode(uid).decode("utf-8")
+            user = User.objects.get(pk=user_id)
 
-            # Update the user's password
-            user.password = make_password(password)
-            user.save()
-
-            # Remove the token from the cache after a successful reset
-            cache.delete(token)
-
-            return JsonResponse({"message": "Password reset successful"}, status=200)
+            new_password = request.data.get("password")
+            if new_password:
+                user.set_password(new_password)
+                user.save()
+                return JsonResponse({'message': 'Password reset successful'}, status=200)
+            return JsonResponse({'error': 'New password not provided'}, status=400)
+        except SignatureExpired:
+            return JsonResponse({'error': 'Token has expired'}, status=400)
+        except (BadSignature, User.DoesNotExist):
+            return JsonResponse({'error': 'Invalid token'}, status=400)
         
-        except User.DoesNotExist:
-            return JsonResponse({"error": "User not found"}, status=404)
-
-        except Exception as e:
-            return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
