@@ -6,12 +6,13 @@ class Appointments(models.Model):
     start = models.DateTimeField(_('start time'), null=False, blank=False)
     end = models.DateTimeField(_('end time'), null=False, blank=False)
     title = models.CharField(_('title'), max_length=50, blank=False)
-    add_time = models.DateTimeField(auto_now=True)
+    creation_time = models.DateTimeField(auto_now=True)
     attended = models.BooleanField(_('attended'), default=False)
     reason = models.CharField(_('description'), blank=True)
     patientId = models.CharField(_('patient detail'), blank=True)
     missed = models.BooleanField(_('missed'), default=False)
     missed_reason = models.CharField(_('reason for missed appointment'), blank=True)
+    reschedule_reason = models.CharField(_('reason for reschedule'), blank=True)
 
     class Meta:
         verbose_name = _('appointment')
@@ -22,7 +23,7 @@ class Appointments(models.Model):
         # Retrieve all records where 'attended' is False and missed is false
         appointments = cls.objects.filter(Q(attended=False) and Q(missed=False))
         return [{
-            'id': appointment.id,
+            'id': appointment.pk,
             'start': appointment.start,
             'end': appointment.end,
             'title': appointment.title,
@@ -33,7 +34,7 @@ class Appointments(models.Model):
     def get_missed_appointments(cls):
         appointments = cls.objects.filter(missed=True)
         return [{
-            'id': appointment.id,
+            'id': appointment.pk,
             'start': appointment.start,
             'end': appointment.end,
             'title': appointment.title,
@@ -44,9 +45,14 @@ class Appointments(models.Model):
     def get_all_appointments(cls):
         appointments = cls.objects.all()
         return [{
-            'id': appointment.id,
+            'id': appointment.pk,
             'start': appointment.start,
             'end': appointment.end,
             'title': appointment.title,
             'calendarId' : appointment.patientId,
         } for appointment in appointments]
+    
+
+    def get_reason(self):
+        # returns missed reason for a given appointment
+        return self.missed_reason
