@@ -45,6 +45,7 @@ import AdminHeader from '@/components/AdminHeader.vue';
 import Calender from '@/components/Calendar.vue';
 import SideBar from '@/components/SideBar.vue';
 import Appointment from '@/components/modals/AddAppointment.vue';
+import Expense from '@/components/modals/AddExpense.vue';
 
 export default {
   components: {
@@ -52,6 +53,7 @@ export default {
     Calender,
     SideBar,
     Appointment,
+    Expense,
   }
 }
 </script>
