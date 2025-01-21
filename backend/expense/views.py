@@ -2,7 +2,6 @@ from rest_framework.views import APIView
 from .serializers import ExpenseSerializer
 from django.http import JsonResponse
 from rest_framework.permissions import IsAuthenticated
-from .models import Expense
 
 
 class AddExpenseView(APIView):
