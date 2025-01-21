@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users',
     'corsheaders',
     'oauth2_provider',
+    'appointments',
 
 ]
 
