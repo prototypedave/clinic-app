@@ -36,7 +36,7 @@ const calendarApp = shallowRef(createCalendar({
     eventsService,
     calendarControls
   ],
-  events: calendarStore.getEvents() ? calendarStore.getEvents() : [], 
+  events: calendarStore.getAppointments ? calendarStore.getAppointments : [], 
   monthGridOptions: {
     nEventsPerDay: 3,
   },

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import router from '@/router';
+import { useCalendarStore } from './calendarStore';
 
 let activityTimeout = null;
 
@@ -20,10 +21,10 @@ export const useAuthStore = defineStore('auth', {
       activityTimeout = setTimeout(async () => {
         console.warn("User inactive for too long. Logging out...");
         await this.logout();
-      }, 1 * 60 * 1000); 
+      }, 10 * 60 * 1000); 
     },
     resetInactivityTimer() {
-      this.startInactivityTimer(); // Restart the timer
+      this.startInactivityTimer(); 
     },
     monitorActivity() {
       //event listeners to reset the timer on user activity
@@ -72,6 +73,9 @@ export const useAuthStore = defineStore('auth', {
             Authorization: `Bearer ${data.access_token}`,
           },
         });
+
+        const calendar = useCalendarStore();
+        await calendar.getEvents(data.access_token);
 
         if (userResponse.ok) {
           const userData = await userResponse.json();

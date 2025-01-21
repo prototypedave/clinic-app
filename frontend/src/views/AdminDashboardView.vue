@@ -6,7 +6,7 @@
       <AdminHeader />
       <div class="flex m-4">
         <div class="flex-1 grid grid-cols-3 gap-4 max-h-48 text-base">
-          <Appointments />
+          <Appointment />
           <Expense />
           <Medicine />
           <Patient />
@@ -44,13 +44,14 @@
 import AdminHeader from '@/components/AdminHeader.vue';
 import Calender from '@/components/Calendar.vue';
 import SideBar from '@/components/SideBar.vue';
+import Appointment from '@/components/modals/AddAppointment.vue';
 
 export default {
   components: {
     AdminHeader,
     Calender,
     SideBar,
-
+    Appointment,
   }
 }
 </script>

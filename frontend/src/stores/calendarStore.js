@@ -7,7 +7,7 @@ export const useCalendarStore = defineStore('calender', {
   actions: {
     async getEvents(token) {
       try {
-        const response = await fetch("http://127.0.0.1:8000/appointments/events", {
+        const response = await fetch("http://127.0.0.1:8000/appointments/get-appointments", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,6 +39,6 @@ export const useCalendarStore = defineStore('calender', {
     },
   },
   getters: {
-    getEvents: (state) => state.events,
+    getAppointments: (state) => state.events,
   },
 });

@@ -7,6 +7,7 @@ import App from './App.vue'
 import router from './router'
 
 import { useAuthStore } from '@/stores/auth';
+import { useCalendarStore } from '@/stores/calendarStore';
 
 const app = createApp(App)
 
@@ -15,5 +16,8 @@ app.use(router)
 
 const authStore = useAuthStore();
 authStore.initializeAuthState();
+
+const calendarStore = useCalendarStore();
+calendarStore.initializeEventsState();
 
 app.mount('#app')
