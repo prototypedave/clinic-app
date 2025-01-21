@@ -8,7 +8,10 @@ class AddAppointmentsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        appointment = AppointmentsSerializer(data=request.data)
+        user = request.user
+        appointment_data = request.data.copy()
+        appointment_data['scheduled_by'] = user.id
+        appointment = AppointmentsSerializer(data=appointment_data)
         if appointment.is_valid():
             appointment.save()
             return JsonResponse({"message": "Appointment saved successfully"}, status=201)

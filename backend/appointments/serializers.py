@@ -7,7 +7,7 @@ from django.dispatch import receiver
 class AppointmentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointments
-        fields = ["start", "end", "title", "reason", "first_name", "middle_name", "last_name", "mobile", "email"]
+        fields = ["start", "end", "title", "reason", "first_name", "middle_name", "last_name", "mobile", "email", "scheduled_by"]
     
 
 class RescheduleSerializer(serializers.ModelSerializer):
