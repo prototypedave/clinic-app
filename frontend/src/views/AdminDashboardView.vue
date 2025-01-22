@@ -46,6 +46,7 @@ import Calender from '@/components/Calendar.vue';
 import SideBar from '@/components/SideBar.vue';
 import Appointment from '@/components/modals/AddAppointment.vue';
 import Expense from '@/components/modals/AddExpense.vue';
+import Medicine from '@/components/modals/AddMedicine.vue';
 
 export default {
   components: {
@@ -54,6 +55,7 @@ export default {
     SideBar,
     Appointment,
     Expense,
+    Medicine,
   }
 }
 </script>
