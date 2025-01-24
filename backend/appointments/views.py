@@ -23,6 +23,7 @@ class RetrieveAppointmentView(APIView):
 
     def get(self, request):
         appointments = Appointments.get_upcoming_appointments()
+        print(appointments)
         return JsonResponse({"events": appointments}, status=200)
     
 
