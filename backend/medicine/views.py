@@ -90,4 +90,33 @@ class UpdateMedicineUse(APIView):
             return JsonResponse({"error": results}, status=status.HTTP_400_BAD_REQUEST)
 
         return JsonResponse({'message': 'Success'}, status=status.HTTP_200_OK)
+    
+
+class MedicineCost(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        batches = request.data.get('batch')
+
+        if not batches or not isinstance(batches, list):
+            return JsonResponse({'error': "List cannot be empty or invalid list"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        total = []
+        for batch in batches:
+            try:
+                medicine = Medicine.objects.get(batch_number=batch.get('batch_number'))
+                med = {
+                    "name": medicine.name,
+                    "batch": medicine.batch_number,
+                    "qty": batch.get('quantity'),
+                    "cost": medicine.get_price(batch.get('quantity')),
+                }
+                total.append(med)
+            except Medicine.DoesNotExist:
+                total.append(None)
+        
+        if total:
+            return JsonResponse({'costs': total}, status=status.status.HTTP_201_OK)
+        return JsonResponse({'error': "Something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
+            
 
