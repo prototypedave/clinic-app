@@ -8,7 +8,6 @@ class MedicineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Medicine
         fields = [
-            'name', 'manufacturer', 'category', 'dosage_quantity', 'strength',
-            'dosage_form', 'price', 'stock', 'expiry_date', 'received_date',
-            'ordered_date', 'buy_price'
+            'name', 'batch_number', 'expiry_date', 'quantity', 'cost', 'price',
+            'type', 'administration', 'strength', 'manufacturer', 'supplier'
         ]

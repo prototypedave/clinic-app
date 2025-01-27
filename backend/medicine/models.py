@@ -64,6 +64,7 @@ class Medicine(models.Model):
     strength = models.PositiveBigIntegerField(_('Dose Strength'), blank=False, null=False)
     manufacturer = models.CharField(_('Manufacturer'), max_length=50, blank=False, null=False)
     supplier = models.CharField(_('Supplier'), max_length=50, blank=False, null=False)
+    updated_date = models.DateTimeField(auto_now=True)
 
     objects = MedicineManager()
     
