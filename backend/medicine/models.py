@@ -3,9 +3,27 @@ from django.utils.translation import gettext_lazy as _
 from datetime import date, timedelta
 from django.db.models import Q
 
+class MedicineManager(models.Manager):
+    def almost_expired(self, num_days):
+        """
+            Returns all medicines that are almost expired from the given number of days
+        """
+        today = date.today()
+        return self.objects.filter(expiry_date__lte=today + timedelta(days=num_days))
+    
+    def almost_finished(self, qty):
+        """
+            Returns all medicines that are finished or almost finished 
+        """
+        return self.objects.filter(quantity__lte=qty)
+
+
 class Medicine(models.Model):
     expiry_date = models.DateField(_('Expiry Date'), blank=False, null=False)
     batch_number = models.CharField(_('Batch Number'), unique=True)
+    quantity = models.PositiveIntegerField(_('Quantity'), blank=False, null=False, default=0)
+
+    objects = MedicineManager()
     
     class Meta:
         verbose_name = _('medicine')
@@ -15,16 +33,8 @@ class Medicine(models.Model):
         """ Returns number of days left till expiry """
         return (self.expiry_date - date.today()).days 
     
-    @classmethod
-    def get_quantity_of_expired_items(cls, num_days):
-        """ Returns the number of medicine nearing expiry or have expired """
-        today = date.today()
-        items_count = cls.objects.filter(expiry_date__lte=today + timedelta(days=num_days)).count()
-        return items_count
+    def get_quantity_remaining(self):
+        """ Returns given medicine quantity remaining """
+        return self.quantity
     
-    @classmethod
-    def get_medicine_expired_or_nearing_expiry(cls, num_days):
-        """ Returns a list of medicine that are almost expired """
-        today = date.today()
-        almost_expired = cls.objects.filter(expiry_date__lte=today + timedelta(days=num_days))
-        return almost_expired
+
