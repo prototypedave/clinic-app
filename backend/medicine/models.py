@@ -38,6 +38,18 @@ class MedicineManager(models.Manager):
         if medicine.exists():
             return medicine.first().batch_number
         return None
+    
+    def get_medicine_by_route_of_administration(self, route):
+        """
+            Returns all medicines that are administered in the given route
+        """
+        return self.objects.filter(administration=route)
+    
+    def get_medicine_by_type(self, type):
+        """
+            Returns all medicines that matches the given type
+        """
+        return self.objects.filter(Q(type__contains=type))
 
 
 class Medicine(models.Model):
@@ -47,6 +59,9 @@ class Medicine(models.Model):
     quantity = models.PositiveIntegerField(_('Quantity'), blank=False, null=False, default=0)
     cost = models.FloatField(_('Unit Cost'), blank=False, null=False, default=0.0)
     price = models.FloatField(_('Price'), blank=False, default=0.0, null=False)
+    type = models.JSONField(_('Medicine class'), blank=False, null=False)
+    administration = models.CharField(_('Intake Route'), blank=False, null=False)
+    strength = models.PositiveBigIntegerField(_('Dose Strength'), blank=False, null=False)
     manufacturer = models.CharField(_('Manufacturer'), max_length=50, blank=False, null=False)
     supplier = models.CharField(_('Supplier'), max_length=50, blank=False, null=False)
 
