@@ -41,12 +41,14 @@ class MedicineManager(models.Manager):
 
 
 class Medicine(models.Model):
-    expiry_date = models.DateField(_('Expiry Date'), blank=False, null=False)
+    name = models.CharField(_('Medicine Name'), blank=False, null=False, max_length=50)
     batch_number = models.CharField(_('Batch Number'), unique=True)
+    expiry_date = models.DateField(_('Expiry Date'), blank=False, null=False)
     quantity = models.PositiveIntegerField(_('Quantity'), blank=False, null=False, default=0)
+    cost = models.FloatField(_('Unit Cost'), blank=False, null=False, default=0.0)
+    price = models.FloatField(_('Price'), blank=False, default=0.0, null=False)
     manufacturer = models.CharField(_('Manufacturer'), max_length=50, blank=False, null=False)
     supplier = models.CharField(_('Supplier'), max_length=50, blank=False, null=False)
-    name = models.CharField(_('Medicine Name'), blank=False, null=False, max_length=50)
 
     objects = MedicineManager()
     
@@ -69,5 +71,14 @@ class Medicine(models.Model):
     def get_supplier(self):
         """ Returns the supplier of this given medicine """
         return self.supplier
+    
+    def get_price(self, qty):
+        """ Returns the total price of selling the medicine """
+        return self.price * qty
+    
+    def get_profit(self, qty):
+        """ Returns the profit earned from selling the medicine """
+        exp = self.price - self.cost  # assuming price will always be higher
+        return exp * qty
     
 
