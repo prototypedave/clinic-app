@@ -10,85 +10,62 @@
     <div v-if="openModal" class="fixed inset-0 z-40 flex justify-center items-center bg-violet-950 bg-opacity-50">
       <div class="bg-violet-300 rounded-lg shadow-lg p-8 w-full max-w-4xl shadow text-violet-950">   
         <h2 class="text-xl font-bold mb-4 text-center">Medicine Data Form</h2>
-        <form @submit.prevent="submitMedicine">
+        <form @submit.prevent="addMedicineData">
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <label for="medicineName" class="block text-sm text-left mb-2 font-medium">Medicine Name</label>
-              <input v-model="medicineName" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border focus:border-violet-950 rounded-md shadow-sm" placeholder='Name' required />
+              <label for="name" class="font-medium text-sm text-left block nb-2">Medicine</label>
+              <input id="name" v-model="name" type="text" class="text-sm block pl-2 py-2 mt-1 border rounded-md shadow-sm focus:border-violet-950 w-full" required  placeholder="Medicine Name"/>
             </div>
             <div>
-              <label for="manufacturer" class="block text-sm text-left mb-2 font-medium ">Manufacturer</label>
-              <input v-model="manufacturer" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border border-darker-gray focus:border-violet-950 rounded-md shadow-sm " placeholder='Company Name' required />
+              <label for="batch" class="font-medium text-sm text-left block nb-2">Batch No.</label>
+              <input id="batch" v-model="batch" type="text" class="text-sm block pl-2 py-2 mt-1 border rounded-md shadow-sm focus:border-violet-950 w-full" required  placeholder="Batch number"/>
             </div>
             <div>
-                <label for="classificaton" class="block text-sm text-left mb-2 font-medium">Medicine Type</label>
-                <multiselect v-model="classification" tag-placeholder="" placeholder="Search or add classification" label="name" track-by="name" :options="options" :multiple="true" :taggable="true" @tag="addTag" class="text-xs"></multiselect>
+              <label for="expiry" class="font-medium text-sm text-left block nb-2">Expiry Date</label>
+              <input id="expiry" v-model="expiry" type="date" class="text-sm block pl-2 py-2 mt-1 border rounded-md shadow-sm focus:border-violet-950 w-full" required />
+            </div>            
+            <div>
+              <label for="qty" class="font-medium text-sm text-left block nb-2">Quantity</label>
+              <input id="qty" v-model="qty" type="number" class="text-sm block pl-2 py-2 mt-1 border rounded-md shadow-sm focus:border-violet-950 w-full" required  placeholder="0"/>
             </div>
             <div>
-              <label for="quantity" class="block text-sm text-left mb-2 font-medium ">Quantity</label>
-              <input v-model="quantity" type="number" class="mt-1 pl-2 block w-full text-sm py-2 border border-darker-gray focus:border-violet-950 rounded-md shadow-sm " placeholder='0' required />
-            </div>
-             <div>
-              <label for="dosage" class="block text-sm text-left mb-2 font-medium ">Dosage</label>
-              <select v-model="dosage" class="mt-1 pl-2 block w-full text-sm py-2 border border-darker-gray focus:border-violet-950 rounded-md shadow-sm " placeholder='Tablet' required>
-                <option value="liquid">Liquid</option>
-                <option value="tablet">Tablet</option>
-                <option value="cream">Cream</option>
-              </select>
-            </div>
-             <div>
-              <label for="strength" class="block text-sm text-left mb-2 font-medium ">Strength</label>
-              <input v-model="strength" type="number" class="mt-1 pl-2 block w-full text-sm py-2 border border-darker-gray focus:border-violet-950 rounded-md shadow-sm " placeholder='10mg' required />
+              <label for="mfcg" class="font-medium text-sm text-left block nb-2">Manufacturer</label>
+              <input id="mfcg" v-model="mfcg" type="text" class="text-sm block pl-2 py-2 mt-1 border rounded-md shadow-sm focus:border-violet-950 w-full" required  placeholder="Manufacturer"/>
             </div>
             <div>
-              <label for="unit" class="block text-sm text-left mb-2 font-medium ">Unit</label>
-                <select v-model="unit" class="mt-1 pl-2 block w-full text-sm py-2 border border-darker-gray focus:border-violet-950 rounded-md shadow-sm " placeholder='mg' required>
-                    <option value="g">g</option>
-                    <option value="mg">mg</option>
-                    <option value="ml">mL</option>
-                </select>
-            </div>
-              <div>
-              <label for="purchaseDate" class="block text-sm text-left mb-2 font-medium ">Purchase Date</label>
-              <input 
-                  v-model="purchaseDate" 
-                  type="date" 
-                  class="mt-1 pl-2 block w-full text-sm py-2 border border-darker-gray focus:border-violet-950 rounded-md shadow-sm" 
-                  :max="today"
-                  @input="validateDate" 
-                  required 
-              />
-              <p v-if="dateError" class="text-red-500 text-sm mt-2">{{ dateError }}</p>
+              <label for="supplier" class="font-medium text-sm text-left block nb-2">Supplier</label>
+              <input id="supplier" v-model="supplier" type="text" class="text-sm block pl-2 py-2 mt-1 border rounded-md shadow-sm focus:border-violet-950 w-full" required  placeholder="Supplier"/>
             </div>
             <div>
-              <label for="expiryDate" class="block text-sm text-left mb-2 font-medium ">Expiry Date</label>
-              <input 
-                  v-model="expiryDate" 
-                  type="date" 
-                  class="mt-1 pl-2 block w-full text-sm py-2 border border-darker-gray focus:border-violet-950 rounded-md shadow-sm" 
-                  :min="today" 
-                  @input="validateDate" 
-                  required 
-              />
-              <p v-if="expiryError" class="text-red-500 text-sm mt-2">{{ expiryError }}</p>  
+              <label for="type" class="font-medium text-sm text-left block nb-2">Medicine Type</label>
+              <Multiselect mode="multiple" v-model="type" required max=4 :options="options"/>
             </div>
             <div>
-              <label for="price" class="block text-sm text-left mb-2 font-medium ">Purchase Price</label>
-              <input v-model="price" type="number" class="mt-1 pl-2 block w-full text-sm py-2 border border-darker-gray focus:border-violet-950 rounded-md shadow-sm " placeholder="$" required />
+              <label for="admin" class="font-medium text-sm text-left block nb-2">Mode of Intake</label>
+              <Multiselect v-model="admin" required max=4 :options="selections"/>
             </div>
             <div>
-              <label for="supplier" class="block text-sm text-left mb-2 font-medium ">Supplier</label>
-              <input v-model="supplier" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border border-darker-gray focus:border-violet-950 rounded-md shadow-sm " placeholder="Supplier Company Name" required />
+              <label for="form" class="font-medium text-sm text-left block nb-2">Dosage Form</label>
+              <Multiselect v-model="form" required max=4 :options="dosage"/>
             </div>
             <div>
-              <label for="category" class="block text-sm text-left mb-2 font-medium ">Category</label>
-              <input v-model="category" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border border-darker-gray focus:border-violet-950 rounded-md shadow-sm " placeholder="Antibiotics" required />
-            </div>         
+              <label for="strength" class="font-medium text-sm text-left block nb-2">Strength</label>
+              <input id="strength" v-model="strength" type="number" class="text-sm block pl-2 py-2 mt-1 border rounded-md shadow-sm focus:border-violet-950 w-full" required  placeholder="in mg"/>
+            </div>
+            <div>
+              <label for="cost" class="font-medium text-sm text-left block nb-2">Unit Cost</label>
+              <input id="cost" v-model="cost" type="number" class="text-sm block pl-2 py-2 mt-1 border rounded-md shadow-sm focus:border-violet-950 w-full" required  placeholder="0"/>
+            </div>
+            <div>
+              <label for="price" class="font-medium text-sm text-left block nb-2">Unit Price</label>
+              <input id="price" v-model="price" type="number" class="text-sm block pl-2 py-2 mt-1 border rounded-md shadow-sm focus:border-violet-950 w-full" required  placeholder="0"/>
+            </div>
           </div>
-          <div class="flex justify-end gap-2">
-              <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">submit</button>  
-              <button @click="openModal = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">close</button>
+          <div class="flex justify-center gap-2 mt-4">
+            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">submit</button>  
+            <button @click="openModal = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">close</button>
           </div>
+          
         </form>
       </div>
     </div>
@@ -96,43 +73,137 @@
 
 <script>
     import { BeakerIcon } from '@heroicons/vue/20/solid';
-    import Multiselect from 'vue-multiselect';
+    import Multiselect from '@vueform/multiselect';
+    import { useAuthStore } from '@/stores/auth';
 
     export default {
         components: { Multiselect, BeakerIcon },
         data () {
           return {
-            classification: null,
+            type: null,
             options: [
-                { name: 'Analgesics' }, 
-                { name: 'Antibiotics' }, 
-                { name: 'Antivirals' },
-                { name: 'Antifungals' },
-                { name: 'Antacids' },
-                { name: 'Antihistamines' },
-                { name: 'Cardiovascular' },
-                { name: 'Endocrine' },
-                { name: 'Psychotropics' },
-                { name: 'Vaccines' },
-                { name: 'Anti-inflammatory' },
-                { name: 'Dermatological' },
-                { name: 'Gastrointestinal' },
-                { name: 'Respiratory' },
-                { name: 'other' },
-
+                'Analgesics', 
+                'Antibiotics', 
+                'Antivirals',
+                'Antifungals',
+                'Antacids',
+                'Antihistamines',
+                'Cardiovascular',
+                'Endocrine',
+                'Psychotropics',
+                'Vaccines',
+                'Anti-inflammatory',
+                'Dermatological',
+                'Gastrointestinal',
+                'Respiratory',
+                'other',
+            ],
+            admin: null,
+            selections: [
+                'oral',
+                'parenteral',
+                'rectal',
+                'vaginal',
+                'urethral',
+                'intra respiratory',
+                'sublingual',
+                'intranasal',
+                'intra ocular',
+                'conjuntival',
+                'transdermal',
+            ],
+            form: null,
+            dosage: [
+                'tablet',
+                'capsules',
+                'powder',
+                'cream',
+                'paste',
+                'gel',
+                'suppositories',
+                'syrup',
+                'solution',
+                'emulsion',
+                'suspension',
+                'inhaler',
+                'aerosols',
             ],
             openModal: false,
             alert: {visible: false, message: ''},
-            today: new Date().toISOString().split('T')[0],
-            dateError: '',
-            expiryError: ''
+            name: '',
+            batch: '',
+            expiry: '',
+            qty: '',
+            mfcg: '',
+            supplier: '',
+            strength: '',
+            cost: '',
+            price: '',
           }
         },
         methods: {
-            addTag (newTag) {
-              const tag = {
-              name : newTag }
-              this.options.push(tag)
+            showAlert(message) {
+                alert.value = { visible: true, message };
+                setTimeout(() => {
+                    alert.value.visible = false;
+                }, 3000); 
+            },
+
+            async addMedicineData () {
+              if (this.type != null && this.admin != null && this.form != null) {
+                const authStore = useAuthStore();
+                console.log(this.type);
+                try {
+                  const response =  await fetch('http://127.0.0.1:8000/medicine/add-medicine', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${authStore.getAccessToken}`,
+                    },
+                    body: JSON.stringify({
+                        "name": this.name,
+                        "batch_number": this.batch,
+                        "expiry_date": this.expiry,
+                        "quantity": this.qty,
+                        "cost": this.cost,
+                        "price": this.price,
+                        "type": this.type,
+                        "administration": this.admin,
+                        "strength": this.strength,
+                        "manufacturer": this.mfcg,
+                        "supplier": this.supplier,
+                    })
+                  });
+                  if (!response.ok) {
+                    const errorData = await response.json();
+                    this.showAlert(errorData.error);
+                  }
+
+                  const success = await response.json();
+                  this.showAlert(success.message);
+                  this.openModal = false;
+                  this.reset();
+                } catch (error) {
+                    console.error(error);
+                    throw error; 
+                }          
+              } 
+            },
+
+            reset() {
+              this.type = null;
+              this.admin = null;
+              this.form = null;
+              this.alert = {visible: false, message: ''};
+              this.name = '';
+              this.batch = '';
+              this.expiry = '';
+              this.qty = '';
+              this.mcfg = '';
+              this.supplier = '';
+              this.strength = '';
+              this.cost = '';
+              this.price = '';
             }
         }
     }
@@ -140,4 +211,4 @@
     
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="@vueform/multiselect/themes/default.css"></style>

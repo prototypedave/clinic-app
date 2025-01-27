@@ -23,6 +23,7 @@
     "@schedule-x/scroll-controller": "^2.14.3",
     "@schedule-x/theme-default": "^2.14.3",
     "@schedule-x/vue": "^2.12.2",
+    "@vueform/multiselect": "^2.6.11",
     "axios": "^1.7.9",
     "pinia": "^2.3.0",
     "preact": "^10.25.4",
