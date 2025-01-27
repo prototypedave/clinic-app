@@ -22,6 +22,22 @@ class MedicineManager(models.Manager):
             Returns all medicines supplied by given supplier
         """
         return self.objects.filter(supplier=name)
+    
+    def get_batch_number_of_given_medicine(self, name, **kwargs):
+        """
+            Returns the batch number of the given medicine that is almost expired
+            Arguments:
+            - name (required): Medicine name
+            - kwargs (optional): Additional fields such as manufacturer, strength, form to help in refine.
+        """
+        filters = {'name': name}
+        filters.update(kwargs)  # if additional fields are provided in the form key: value
+
+        # filter medicine
+        medicine = self.filter(**filters).order_by('expiry_date') # almost expired first
+        if medicine.exists():
+            return medicine.first().batch_number
+        return None
 
 
 class Medicine(models.Model):
@@ -30,6 +46,7 @@ class Medicine(models.Model):
     quantity = models.PositiveIntegerField(_('Quantity'), blank=False, null=False, default=0)
     manufacturer = models.CharField(_('Manufacturer'), max_length=50, blank=False, null=False)
     supplier = models.CharField(_('Supplier'), max_length=50, blank=False, null=False)
+    name = models.CharField(_('Medicine Name'), blank=False, null=False, max_length=50)
 
     objects = MedicineManager()
     
