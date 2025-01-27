@@ -36,33 +36,58 @@ class UpdateMedicineUse(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        name = request.data.get('name')
-        batch_number = request.data.get('batch_number')
-        quantity_to_use = request.data.get('quantity')
-        strength = request.data.get('strength')
-        manufacturer = request.data.get('manufacturer')
+        medicines = request.data.get('medicine')
 
-        if not name or not batch_number or quantity_to_use is None:
-            return JsonResponse({'error': 'Name, batch number, and quantity are required.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not medicines or not isinstance(medicines, list):
+            return JsonResponse({'error': "Check every field is submitted correctly"}, status=status.HTTP_400_BAD_REQUEST)
         
-        closest_batch = Medicine.objects.get_batch_number_of_given_medicine(name=name, strength=strength, manufacturer=manufacturer)
-        
-        if closest_batch is None:
-            return JsonResponse({'error': 'No medicines registered with the given name.'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        if batch_number != closest_batch:
-            return JsonResponse({'error': f"Please give the batch number: {closest_batch}, which is closest to expiry."}, status=status.HTTP_400_BAD_REQUEST)
+        results = []
+        for medicine_data in medicines:
+            name = medicine_data.get('name')
+            batch_number = medicine_data.get('batch_number')
+            quantity_to_use = medicine_data.get('quantity')
+            strength = medicine_data.get('strength')
+            manufacturer = medicine_data.get('manufacturer')
 
-        try:
-            medicine = Medicine.objects.get(name=name, batch_number=batch_number)
-        except Medicine.DoesNotExist:
-            return JsonResponse({'error': 'The provided batch number is not yet registered.'}, status=status.HTTP_404_NOT_FOUND)
+            if not name or not batch_number or quantity_to_use is None:
+                results.append({'error': 'Name, batch number, and quantity are required.', 'medicine': medicine_data})
+                continue
 
-        if quantity_to_use > medicine.quantity:
-            return JsonResponse({'error': 'Insufficient quantity available.'}, status=status.HTTP_400_BAD_REQUEST)
+            if not name or not batch_number or quantity_to_use is None:
+                results.append({'error': 'Name, batch number, and quantity are required.', 'medicine': medicine_data})
+                continue
 
-        medicine.quantity -= quantity_to_use
-        medicine.save()
+            # Get the closest batch number
+            closest_batch = Medicine.objects.get_batch_number_of_given_medicine(
+                name=name, strength=strength, manufacturer=manufacturer
+            )
 
-        return JsonResponse({'message': f'Successfully updated the quantity. Remaining quantity: {medicine.quantity}'}, status=status.HTTP_200_OK)
+            if closest_batch is None:
+                results.append({'error': 'No medicines registered with the given name.', 'medicine': medicine_data})
+                continue
+
+            if batch_number != closest_batch:
+                results.append({
+                    'error': f"Please provide the batch number: {closest_batch}, which is closest to expiry.",
+                    'medicine': medicine_data
+                })
+                continue
+
+            try:
+                medicine = Medicine.objects.get(name=name, batch_number=batch_number)
+            except Medicine.DoesNotExist:
+                results.append({'error': 'The provided batch number is not yet registered.', 'medicine': medicine_data})
+                continue
+
+            if quantity_to_use > medicine.quantity:
+                results.append({'error': 'Insufficient quantity available.', 'medicine': medicine_data})
+                continue
+
+            medicine.quantity -= quantity_to_use
+            medicine.save()
+
+        if results:
+            return JsonResponse({"error": results}, status=status.HTTP_400_BAD_REQUEST)
+
+        return JsonResponse({'message': 'Success'}, status=status.HTTP_200_OK)
 
