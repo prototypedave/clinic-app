@@ -16,12 +16,20 @@ class MedicineManager(models.Manager):
             Returns all medicines that are finished or almost finished 
         """
         return self.objects.filter(quantity__lte=qty)
+    
+    def categorize_by_supplier(self, name):
+        """
+            Returns all medicines supplied by given supplier
+        """
+        return self.objects.filter(supplier=name)
 
 
 class Medicine(models.Model):
     expiry_date = models.DateField(_('Expiry Date'), blank=False, null=False)
     batch_number = models.CharField(_('Batch Number'), unique=True)
     quantity = models.PositiveIntegerField(_('Quantity'), blank=False, null=False, default=0)
+    manufacturer = models.CharField(_('Manufacturer'), max_length=50, blank=False, null=False)
+    supplier = models.CharField(_('Supplier'), max_length=50, blank=False, null=False)
 
     objects = MedicineManager()
     
@@ -36,5 +44,13 @@ class Medicine(models.Model):
     def get_quantity_remaining(self):
         """ Returns given medicine quantity remaining """
         return self.quantity
+    
+    def get_manufacturer(self):
+        """ Returns the manufacturers name """
+        return self.manufacturer
+    
+    def get_supplier(self):
+        """ Returns the supplier of this given medicine """
+        return self.supplier
     
 
