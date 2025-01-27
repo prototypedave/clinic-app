@@ -11,7 +11,8 @@ class AddMedicineView(APIView):
 
     def post(self, request):
         if request.data:
-            medicine = MedicineSerializer(request.data)
+            medicine = MedicineSerializer(data=request.data)
+            print(medicine)
             if medicine.is_valid():
                 medicine.save()
                 return JsonResponse({"message": "Medicine saved Successfully"}, status=201)
