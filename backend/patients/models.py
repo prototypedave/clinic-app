@@ -13,3 +13,14 @@ class Patient(models.Model):
     class Meta:
         verbose_name = _('patient')
         verbose_name_plural = _('patients')
+
+
+class PatientRecord(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient', null=True, blank=True)
+    reason = models.CharField(_('Reason for visit'), null=False, blank=False)
+    visit_date = models.DateTimeField(auto_now=True)
+
+
+    class Meta:
+        verbose_name = _('records')
+        verbose_name_plural = _('records')
