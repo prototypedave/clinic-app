@@ -47,6 +47,7 @@ import SideBar from '@/components/SideBar.vue';
 import Appointment from '@/components/modals/AddAppointment.vue';
 import Expense from '@/components/modals/AddExpense.vue';
 import Medicine from '@/components/modals/AddMedicine.vue';
+import Patient from '@/components/modals/PatientModal.vue';
 
 export default {
   components: {
@@ -56,6 +57,7 @@ export default {
     Appointment,
     Expense,
     Medicine,
+    Patient,
   }
 }
 </script>
