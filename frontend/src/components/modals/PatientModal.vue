@@ -350,70 +350,9 @@
 
     <!-- Invoice -->
 
-
+    <Register />
     <!-- patient data -->
-    <div v-if="openPatientInfo" class="fixed inset-0 z-40 flex justify-center items-center bg-violet-950 bg-opacity-50">
-      <div class="bg-violet-300 rounded-lg shadow-lg p-8 w-full max-w-2xl shadow text-violet-950">        
-        <h2 class="text-xl font-bold mb-4 text-center"> Patient Personal Details </h2>
-        <p class="text-center text-violet-500 mb-4"> Please fill in all the required fields * </p>
-        <form @submit.prevent="getPatientInfo" class="flex flex-col gap-4">
-          <div class="grid grid-rows-4 border border-violet-950 shadow-2xl rounded-md p-4 gap-4">
-            <div class="flex justify-between">
-              <div>
-                <label for="dob" class="block text-sm text-left mb-2 font-medium ">Date of Birth*</label>
-                <input v-model="dob" type="date" class="mt-1 pl-2 block w-full text-sm py-2 bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='First Name' required />
-              </div>
-              <div>
-                <label for="age" class="block text-sm text-left mb-2 font-medium ">Age*</label>
-                <input v-model="age" type="number" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='0' required />
-              </div>
-              <div>
-                <label for="gender" class="block text-sm text-left mb-2 font-medium ">Gender*</label>
-                <select v-model="gender" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='First Name' required >
-                  <option value='male'>Male</option>
-                  <option value='female'>Female</option>
-                </select>
-              </div>
-            </div>
-            <div class="flex justify-between gap-4">
-              <div>
-                <label for="address" class="block text-sm text-left mb-2 font-medium ">Address</label>
-                <input v-model="address" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Kangemi'/>
-              </div>
-              <div>
-                <label for="mobile" class="block text-sm text-left mb-2 font-medium ">Phone Number*</label>
-                <input v-model="mobile" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='+254' required />
-              </div>
-              <div>
-                <label for="email" class="block text-sm text-left mb-2 font-medium ">Email*</label>
-                <input v-model="email" type="email" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='@company.com' required />
-              </div>
-            </div>
-            <div class="flex flex-col">
-              <h4 class="text-center text-violet-600">Emergency Contact </h4>
-              <div class="flex justify-between gap-4">
-                <div>
-                  <label for="emergencyName" class="block text-sm text-left mb-2 font-medium ">Name</label>
-                  <input v-model="emergencyName" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Name' />
-                </div>
-                <div>
-                  <label for="relationship" class="block text-sm text-left mb-2 font-medium ">Relationship</label>
-                  <input v-model="relationship" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='mum'/>
-                </div>
-                <div>
-                  <label for="phone" class="block text-sm text-left mb-2 font-medium ">Phone</label>
-                  <input v-model="phone" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='+254' />
-                </div>
-              </div>
-            </div>
-            <div class="flex justify-end gap-4 h-10">
-              <button @click="openModal = true; openPatientInfo = false" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md focus:ring focus:ring-secondary-btn-fcs">back</button>
-              <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">next</button>
-          </div>
-          </div>
-        </form>
-      </div>
-    </div>
+    
 
     <!-- medical history -->
     <div v-if="openHistory" class="fixed inset-0 z-40 flex justify-center items-center bg-violet-950 bg-opacity-50">
@@ -469,7 +408,8 @@
     import { UserIcon } from '@heroicons/vue/20/solid';
     import { ref } from 'vue';
     import { useAuthStore } from '@/stores/auth';
-    import { usePatientModalStore } from '@/stores/patientModal'
+    import { usePatientModalStore } from '@/stores/patientModal';
+    import Register from '@/components/patients/Register.vue';
 
     const openModal = ref(false);
     const authStore = useAuthStore();
