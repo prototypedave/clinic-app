@@ -6,7 +6,10 @@ from django.db.models import Q
 class PatientManager(models.Manager):
     def check_if_patient_exists(self, mobile):
         """ Returns the patient instance with the given mobile """
-        return self.objects.filter(mobile=mobile)
+        patient = self.objects.filter(mobile=mobile)
+        if patient:
+            return patient.pk
+        return None
     
 
 class Patient(models.Model):
@@ -16,7 +19,7 @@ class Patient(models.Model):
     mobile = models.CharField(_('Telephone Number'), unique=True, null=False, blank=False)
     
     objects =  PatientManager()
-    
+
     class Meta:
         verbose_name = _('patient')
         verbose_name_plural = _('patients')

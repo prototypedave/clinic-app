@@ -11,7 +11,7 @@ class PatientCheckUpSerializer(serializers.ModelSerializer):
         ]
 
 
-class PatientRecordSerializer(serializers.ModelSerializer):
+class PatientReasonSerializer(serializers.ModelSerializer):
     class Meta:
         model = PatientRecord
         fields = [
