@@ -3,7 +3,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Patient, PatientRecord
 
-class PatientSerializer(serializers.ModelSerializer):
+class PatientCheckUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
         fields = [
