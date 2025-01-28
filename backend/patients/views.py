@@ -23,7 +23,7 @@ class CheckRegisteredPatient(APIView):
                         "patient" : pk,
                         "reason" : request.data.get('reason'),
                     }
-                    record = PatientReasonSerializer(ser_data)
+                    record = PatientReasonSerializer(data=ser_data)
                     if record.is_valid():
                         record.save()
                         return JsonResponse({"registered" : True}, status=status.HTTP_200_OK)
@@ -36,7 +36,7 @@ class CheckRegisteredPatient(APIView):
                     "last_name": request.data.get('last'),
                     "mobile": mobile,
                 }
-                patient = PatientCheckUpSerializer(ser_data)
+                patient = PatientCheckUpSerializer(data=ser_data)
                 if patient.is_valid():
                     patient.save()
                     pk = Patient.objects.check_if_patient_exists(mobile)
@@ -44,7 +44,7 @@ class CheckRegisteredPatient(APIView):
                         "patient" : pk,
                         "reason" : request.data.get('reason'),
                     }
-                    record = PatientReasonSerializer(ser_data)
+                    record = PatientReasonSerializer(data=ser_data)
                     if record.is_valid():
                         record.save()
                         return JsonResponse({"registered" : False}, status=status.HTTP_200_OK)

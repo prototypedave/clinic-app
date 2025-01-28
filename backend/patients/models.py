@@ -5,11 +5,12 @@ from django.db.models import Q
 
 class PatientManager(models.Manager):
     def check_if_patient_exists(self, mobile):
-        """ Returns the patient instance with the given mobile """
-        patient = self.objects.filter(mobile=mobile)
-        if patient:
-            return patient.pk
-        return None
+        """ Returns the patient ID with the given mobile, if exists """
+        try:
+            patient = self.get(mobile=mobile)
+            return patient.id
+        except self.model.DoesNotExist:
+            return None
     
 
 class Patient(models.Model):
