@@ -143,9 +143,9 @@
         },
         methods: {
             showAlert(message) {
-                alert.value = { visible: true, message };
+                this.alert = { visible: true, message };
                 setTimeout(() => {
-                    alert.value.visible = false;
+                    this.alert.visible = false;
                 }, 3000); 
             },
 
