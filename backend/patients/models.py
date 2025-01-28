@@ -14,6 +14,15 @@ class Patient(models.Model):
         verbose_name = _('patient')
         verbose_name_plural = _('patients')
 
+    def get_patient_name(self):
+        """ Returns patient's full name """
+        full_name = '%s %s' % (self.first_name, self.last_name)
+        return full_name.strip()
+    
+    def get_patient_short_name(self):
+        """ Returns only the first name of the patient """
+        return self.first_name
+
 
 class PatientRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient', null=True, blank=True)
