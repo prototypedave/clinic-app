@@ -146,13 +146,14 @@
                 this.alert = { visible: true, message };
                 setTimeout(() => {
                     this.alert.visible = false;
+                    this.alert.message = '';
                 }, 3000); 
             },
 
             async addMedicineData () {
+              console.log(this.alert.visible);
               if (this.type != null && this.admin != null && this.form != null) {
                 const authStore = useAuthStore();
-                console.log(this.type);
                 try {
                   const response =  await fetch('http://127.0.0.1:8000/medicine/add-medicine', {
                     method: "POST",
@@ -194,7 +195,6 @@
               this.type = null;
               this.admin = null;
               this.form = null;
-              this.alert = {visible: false, message: ''};
               this.name = '';
               this.batch = '';
               this.expiry = '';
@@ -207,7 +207,6 @@
             }
         }
     }
-
     
 </script>
 
