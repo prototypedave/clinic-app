@@ -70,7 +70,7 @@ class Medicine(models.Model):
     
     class Meta:
         verbose_name = _('medicine')
-        verbose_name_plural = _('Medicine')
+        verbose_name_plural = _('medicines')
     
     def get_time_left_to_expiry(self):
         """ Returns number of days left till expiry """
