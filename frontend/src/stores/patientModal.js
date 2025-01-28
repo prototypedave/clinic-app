@@ -8,6 +8,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 		openRehabilitation: false,
 		openPalliative: false,
 		openConsultation: false,
+		openRegister: false,
 	}),
 	actions: {
 		emergencyModal () {
@@ -18,6 +19,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openRehabilitation = false;
 			this.openPalliative = false;
 			this.openConsultation = false;
+			this.openRegister = false;
 		},
 
 		scheduledModal () {
@@ -28,6 +30,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openRehabilitation = false;
 			this.openPalliative = false;
 			this.openConsultation = false;
+			this.openRegister = false;
 		},
 
 		managementModal () {
@@ -38,6 +41,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openRehabilitation = false;
 			this.openPalliative = false;
 			this.openConsultation = false;
+			this.openRegister = false;
 		},
 
 		maternityModal () {
@@ -48,6 +52,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openRehabilitation = false;
 			this.openPalliative = false;
 			this.openConsultation = false;
+			this.openRegister = false;
 		},
 
 		rehabilitationModal () {
@@ -58,6 +63,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openRehabilitation = true;
 			this.openPalliative = false;
 			this.openConsultation = false;
+			this.openRegister = false;
 		},
 
 		palliativeModal () {
@@ -68,6 +74,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openRehabilitation = false;
 			this.openPalliative = true;
 			this.openConsultation = false;
+			this.openRegister = false;
 		},
 
 		consultationModal () {
@@ -78,7 +85,19 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openRehabilitation = false;
 			this.openPalliative = false;
 			this.openConsultation = true;
+			this.openRegister = false;
 		},
+
+		registerModal () {
+			this.openEmergency = false;
+			this.openScheduled = false;
+			this.openManagement = false;
+			this.openMaternity = false;
+			this.openRehabilitation = false;
+			this.openPalliative = false;
+			this.openConsultation = false;
+			this.openRegister = true;
+		}
 	},
 	getters: {
 		getEmergency: (state) => state.openEmergency,
@@ -88,5 +107,6 @@ export const usePatientModalStore = defineStore('patientModal', {
 		getRehabilitation: (state) => state.openRehabilitation,
 		getPalliative: (state) => state.openPalliative,
 		getConsultation: (state) => state.openConsultation,
+		getRegister: (state) => state.openRegister,
 	},
 });

@@ -469,13 +469,13 @@
     import { UserIcon } from '@heroicons/vue/20/solid';
     import { ref } from 'vue';
     import { useAuthStore } from '@/stores/auth';
+    import { usePatientModalStore } from '@/stores/patientModal'
 
     const openModal = ref(false);
     const authStore = useAuthStore();
+    const modalStore = usePatientModalStore();
 
     const alert = ref({ visible: false, message: '' });
-    const today = new Date().toISOString().split('T')[0];
-
     function showAlert(message) {
         alert.value = { visible: true, message };
         setTimeout(() => {
@@ -517,13 +517,41 @@
 
                 const success = await response.json();
                 if (success.registered) {
-
+                    if (reason.value === "emergency") {
+                        modalStore.emergencyModal();
+                        openModal.value = false;
+                    } else if (reason.value === "scheduled care") {
+                        modalStore.scheduledModal();
+                        openModal.value = false;
+                    } else if (reason.value === "disease management") {
+                        modalStore.managementModal();
+                        openModal.value = false;
+                    } else if (reason.value === "maternity care") {
+                        modalStore.maternityModal();
+                        openModal.value = false;
+                    } else if (reason.value === "rehabilitation") {
+                        modalStore.rehabilitationModal();
+                        openModal.value = false;
+                    } else if (reason.value === "palliative care") {
+                        modalStore.palliativeModal();
+                        openModal.value = false;
+                    } else if (reason.value === "consultation") {
+                        modalStore.consultationModal();
+                        openModal.value = false;
+                    } else {
+                        showAlert("Invalid reason provided. Please try again")
+                        openModal.value = false;
+                    }
+                } else {
+                    modalStore.registerModal();
+                    openModal.value = false;
                 }
-            }
+            } catch (error) {
+                console.error(error);
+                throw error; 
+            }   
         }
     }
-
-  
 
 </script>
 
