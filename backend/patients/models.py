@@ -83,9 +83,28 @@ class PatientDependant(models.Model):
 class PatientRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient', null=True, blank=True)
     guardian = models.ForeignKey(PatientDependant, on_delete=models.CASCADE, related_name='dependant', null=True, blank=True)
-    reason = models.CharField(_('Reason for visit'), null=False, blank=False)
+    reason = models.TextField(_('Reason for visit'), null=False, blank=False)
     visit_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _('records')
-        verbose_name_plural = _('records')
+        constraints = [
+            models.CheckConstraint(
+                check=(
+                    models.Q(patient__isnull=False) | models.Q(dependant__isnull=False)
+                ),
+                name='record_must_have_patient_or_dependant'
+            ),
+            models.CheckConstraint(
+                check=(
+                    ~models.Q(patient__isnull=False) | ~models.Q(dependant__isnull=False)
+                ),
+                name='record_cannot_have_both_patient_and_dependant'
+            ),
+        ]
+
+    def __str__(self):
+        if self.patient:
+            return f"Record for Patient: {self.patient.get_full_name()}"
+        elif self.dependant:
+            return f"Record for Dependant: {self.dependant.get_full_name()}"
+        return "Unassigned Record"

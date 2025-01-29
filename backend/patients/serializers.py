@@ -40,3 +40,11 @@ class DependantSerializer(serializers.ModelSerializer):
         gender_mapping = {"Male": "M", "Female": "F", "male": "M", "female": "F"}
         data['gender'] = gender_mapping.get(data.get('gender'), data.get('gender'))
         return super().to_internal_value(data)
+    
+
+class RecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientRecord
+        fields = [
+            "patient", "guardian", "reason", 
+        ]
