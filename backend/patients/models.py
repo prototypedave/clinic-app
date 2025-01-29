@@ -28,6 +28,7 @@ class Patient(models.Model):
     guardian = models.BooleanField(_('if parent'), null=False, blank=False, default=False)
     family_history = models.CharField(_('Family Illness'), null=True, blank=True)
     gender = models.CharField(_('Sex'), max_length=1, choices=GenderChoices.choices, null=False, blank=False)
+    email = models.CharField(_('Email'), null=True, blank=True)
     
     objects =  PatientManager()
 
@@ -80,10 +81,10 @@ class PatientDependant(models.Model):
 
 
 class PatientRecord(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='record', null=True, blank=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient', null=True, blank=True)
+    guardian = models.ForeignKey(PatientDependant, on_delete=models.CASCADE, related_name='dependant', null=True, blank=True)
     reason = models.CharField(_('Reason for visit'), null=False, blank=False)
     visit_date = models.DateTimeField(auto_now=True)
-
 
     class Meta:
         verbose_name = _('records')
