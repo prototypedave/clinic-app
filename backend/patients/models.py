@@ -69,6 +69,14 @@ class PatientDependant(models.Model):
     def get_dependant_short_name(self):
         """ Returns only the first name of the patient """
         return self.first_name
+    
+    @classmethod
+    def get_dependant_by_name(cls, name, alienId):
+        """ First retrieves dependants using FK (guardian) then filters by full name """
+        return cls.objects.filter(guardian_id=alienId).filter(
+            first_name__iexact=name.split()[0],
+            last_name__iexact=name.split()[1] if len(name.split()) > 1 else ""
+        )
 
 
 class PatientRecord(models.Model):
