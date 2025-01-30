@@ -97,6 +97,17 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openPalliative = false;
 			this.openConsultation = false;
 			this.openRegister = true;
+		},
+
+		reset () {
+			this.openEmergency = false;
+			this.openScheduled = false;
+			this.openManagement = false;
+			this.openMaternity = false;
+			this.openRehabilitation = false;
+			this.openPalliative = false;
+			this.openConsultation = false;
+			this.openRegister = false;
 		}
 	},
 	getters: {

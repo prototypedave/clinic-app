@@ -1,7 +1,5 @@
 <template>
-    <div 
-        v-if="alert.visible" 
-        class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded-md shadow-lg z-50">
+    <div v-if="alert.visible" class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded-md shadow-lg z-50">
         {{ alert.message }}
     </div>
     <button class="flex flex-col p-4 bg-violet-800 justify-between items-center text-white hover:bg-violet-950 rounded-md" @click="openModal = true">
@@ -11,51 +9,101 @@
     
     <!-- check patient -->
     <div v-if="openModal" class="fixed inset-0 z-40 flex justify-center items-center bg-violet-950 bg-opacity-50">
-      <div class="bg-violet-300 rounded-lg shadow-lg p-8 w-full max-w-xl shadow text-violet-950">        
+        <div class="bg-violet-300 rounded-lg shadow-lg p-8 w-full max-w-xl shadow text-violet-950">        
         
-        <!-- Patient Intro Form -->
-        <h2 class="text-xl font-bold mb-1 text-center"> Patient Details Form </h2>
-        <p class="text-center text-violet-500 text-sm mb-4"> Please fill all details accordingly </p>
-        <form @submit.prevent="LookUpPatient" class="flex flex-col gap-4">
-          <div class="flex gap-4">
-            <div>
-              <label for="first" class="block text-sm text-left mb-2 font-medium">First Name*</label>
-              <input v-model="first" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='First Name' required />
-            </div>
-            <div>
-              <label for="second" class="block text-sm text-left mb-2 font-medium ">Middle Name</label>
-              <input v-model="second" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Second Name' />
-            </div>
-            <div>
-              <label for="last" class="block text-sm text-left mb-2 font-medium ">Last Name*</label>
-              <input v-model="last" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Last Name' required />
-            </div>
-          </div>
-          <div class="flex gap-4">
-            <div>
-              <label for="mobile" class="block text-sm text-left mb-2 font-medium ">Telephone*</label>
-              <input v-model="mobile" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='+254' required />
-            </div>
-            <div>
-              <label for="reason" class="block text-sm text-left mb-2 font-medium ">Select Purpose of the visit*</label>
-              <select v-model="reason" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
-                <option value="emergency">Urgent/Emergency</option>
-                <option value="scheduled care">Scheduled Care</option>
-                <option value="disease management">Disease Management</option>
-                <option value="maternity care">Maternity Care</option>
-                <option value="rehabilitation">Rehabilitation</option>
-                <option value="palliative care">Palliative Care</option>
-                <option value="consultation">Consultation</option>
-              </select> 
-            </div>
-          </div>
-          <div class="flex justify-end gap-4">
-            <button @click="openModal = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">close</button>
-            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">next</button>
-          </div>
-
-        </form>
-      </div>
+            <!-- Patient Intro Form -->
+            <h2 class="text-xl font-bold mb-1 text-center"> Patient Details Form </h2>
+            <p class="text-center text-violet-500 text-sm mb-4"> Please fill all details accordingly </p>
+            <form @submit.prevent="RegisterPatient" class="flex flex-col gap-4">
+                <div class="flex gap-4">
+                    <div>
+                        <label for="first" class="block text-sm text-left mb-2 font-medium">First Name*</label>
+                        <input v-model="first" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Patient First Name' required />
+                    </div>
+                    <div>
+                        <label for="second" class="block text-sm text-left mb-2 font-medium ">Middle Name</label>
+                        <input v-model="second" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Patient Second Name' />
+                    </div>
+                    <div>
+                        <label for="last" class="block text-sm text-left mb-2 font-medium ">Last Name*</label>
+                        <input v-model="last" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Patient Last Name' required />
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-full">
+                        <label for="dob" class="block text-sm text-left mb-2 font-medium">Date of Birth*</label>
+                        <input v-model="dob" type="date" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm" required />
+                    </div>
+                    <div class="w-full">
+                        <label for="gender" class="block text-sm text-left mb-2 font-medium ">Gender*</label>
+                        <select v-model="gender" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select> 
+                    </div>
+                    <div class="w-full">
+                        <p class="block text-sm text-left font-medium mb-2">Patient below 18 years?*</p>
+                        <div class="flex gap-4">
+                            <label>Yes</label>
+                            <input v-model="guardian" type="radio" :value="true" name="guardian" required />
+                            <label>No</label>
+                            <input v-model="guardian" type="radio" :value="false" name="guardian" required />
+                        </div>
+                </div>
+                </div>     
+                <p v-if="guardian" class="text-left text-violet-500 text-sm">Guardian/Parent Details</p>
+                <div v-if="guardian" class="flex gap-4">
+                    <div>
+                        <label for="first" class="block text-sm text-left mb-2 font-medium">Guardian First Name*</label>
+                        <input v-model="first" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Guardian First Name' required />
+                    </div>
+                    <div>
+                        <label for="second" class="block text-sm text-left mb-2 font-medium ">Guardian Middle Name</label>
+                        <input v-model="second" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Guardian Second Name' />
+                    </div>
+                    <div>
+                        <label for="last" class="block text-sm text-left mb-2 font-medium ">Guardian Last Name*</label>
+                        <input v-model="last" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Guardian Last Name' required />
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div>
+                        <label for="mobile" class="block text-sm text-left mb-2 font-medium ">Phone Number*</label>
+                        <input v-model="mobile" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='+254' required />
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm text-left mb-2 font-medium ">Email</label>
+                        <input v-model="email" type="email" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='user@email.com'/>
+                    </div>
+                    <div>
+                        <label for="address" class="block text-sm text-left mb-2 font-medium ">Address</label>
+                        <input v-model="address" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Westlands'/>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-full">
+                        <label for="history" class="block text-sm text-left mb-2 font-medium">Family History</label>
+                        <textarea v-model="history" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Family Illness History'/>
+                    </div>
+                    <div class="w-full">
+                        <label for="reason" class="block text-sm text-left mb-2 font-medium ">Select Purpose of the visit*</label>
+                        <select v-model="reason" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
+                            <option value="emergency">Urgent/Emergency</option>
+                            <option value="scheduled care">Scheduled Care</option>
+                            <option value="disease management">Disease Management</option>
+                            <option value="maternity care">Maternity Care</option>
+                            <option value="rehabilitation">Rehabilitation</option>
+                            <option value="palliative care">Palliative Care</option>
+                            <option value="consultation">Consultation</option>
+                        </select> 
+                    </div>
+                </div>
+                <div class="flex justify-end gap-4">
+                    <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">next</button>
+                    <button @click="openModal = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">Close</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Patient Symptoms -->
@@ -414,6 +462,7 @@
     const openModal = ref(false);
     const authStore = useAuthStore();
     const modalStore = usePatientModalStore();
+    const guardian = ref(false);
 
     const alert = ref({ visible: false, message: '' });
     function showAlert(message) {

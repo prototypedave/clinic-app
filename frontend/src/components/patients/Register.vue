@@ -1,19 +1,19 @@
 <template>
 	<div v-if="openRegister" class="fixed inset-0 z-40 flex justify-center items-center bg-violet-950 bg-opacity-50">
       	<div class="bg-violet-300 rounded-lg shadow-lg p-8 w-full max-w-2xl shadow text-violet-950">        
-        	<h2 class="text-xl font-bold mb-4 text-center"> Additional Patient Fields </h2>
+        	<h2 class="text-xl font-bold mb-4 text-center"> Additional Patient Details </h2>
         	<p class="text-center text-violet-500 mb-4"> Please fill in all the required fields * </p>
         	<form @submit.prevent="getPatientInfo" class="flex flex-col gap-4">
-          		<div class="flex gap-4">
-          			<div>
+          		<div class="flex justify-between gap-4">
+          			<div class='w-full'>
                 		<label for="email" class="block text-sm text-left mb-2 font-medium ">Email</label>
                 		<input v-model="email" type="email" class="mt-1 pl-2 block w-full text-sm py-2 bg-violet-200 focus:border-violet-950 rounded-md shadow-sm "/>
               		</div>
-            		<div>
+            		<div class='w-full'>
                 		<label for="dob" class="block text-sm text-left mb-2 font-medium ">Date of Birth*</label>
-                		<input v-model="dob" type="date" class="mt-1 pl-2 block w-full text-sm py-2 bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required />
+                		<input v-model="dob" type="date" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required/>
               		</div>
-              		<div>
+              		<div class='w-full'>
                 		<label for="gender" class="block text-sm text-left mb-2 font-medium ">Gender*</label>
                 		<select v-model="gender" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required >
                   			<option value='male'>Male</option>
@@ -21,11 +21,12 @@
                 		</select>
               		</div>
             	</div>
+            	<div>
+                	<label for="address" class="block text-sm text-left mb-2 font-medium ">Address</label>
+                	<input v-model="address" type="text" class="mt-1 pl-2 block  text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Kangemi'/>
+              	</div>
+            	<p class="text-center text-violet-500 mb-4"> Fill below if patient has insuarance </p>
             	<div class="flex justify-between gap-4">
-              		<div>
-                		<label for="address" class="block text-sm text-left mb-2 font-medium ">Address</label>
-                		<input v-model="address" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Kangemi'/>
-              		</div>
               		<div>
                 		<label for="provider" class="block text-sm text-left mb-2 font-medium ">Insurance Provider</label>
                 		<input v-model="provider" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='NHIF'/>

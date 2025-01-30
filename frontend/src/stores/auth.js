@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import router from '@/router';
 import { useCalendarStore } from './calendarStore';
+import { usePatientModalStore } from '@/stores/patientModal';
 
 let activityTimeout = null;
 
@@ -111,6 +112,9 @@ export const useAuthStore = defineStore('auth', {
         this.error = null;
         this.role = null;
         this.stopMonitoringActivity();
+
+        const patientModals = usePatientModalStore();
+        patientModals.reset();
 
         localStorage.removeItem('authAccessToken');
         localStorage.removeItem('authRefreshToken');
