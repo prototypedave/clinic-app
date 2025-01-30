@@ -7,38 +7,36 @@
         <p>Patient</p>
     </button>
     
-    <!-- check patient -->
+    <!-- New patient -->
     <div v-if="openModal" class="fixed inset-0 z-40 flex justify-center items-center bg-violet-950 bg-opacity-50">
         <div class="bg-violet-300 rounded-lg shadow-lg p-8 w-full max-w-xl shadow text-violet-950">        
-        
-            <!-- Patient Intro Form -->
             <h2 class="text-xl font-bold mb-1 text-center"> Patient Details Form </h2>
             <p class="text-center text-violet-500 text-sm mb-4"> Please fill all details accordingly </p>
-            <form @submit.prevent="RegisterPatient" class="flex flex-col gap-4">
+            <form @submit.prevent="RegisterPatient" class="flex flex-col gap-2">
                 <div class="flex gap-4">
                     <div>
                         <label for="first" class="block text-sm text-left mb-2 font-medium">First Name*</label>
-                        <input v-model="first" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Patient First Name' required />
+                        <input v-model="first" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Patient First Name' required />
                     </div>
                     <div>
                         <label for="second" class="block text-sm text-left mb-2 font-medium ">Middle Name</label>
-                        <input v-model="second" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Patient Second Name' />
+                        <input v-model="second" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Patient Second Name' />
                     </div>
                     <div>
                         <label for="last" class="block text-sm text-left mb-2 font-medium ">Last Name*</label>
-                        <input v-model="last" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Patient Last Name' required />
+                        <input v-model="last" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Patient Last Name' required />
                     </div>
                 </div>
                 <div class="flex gap-4">
                     <div class="w-full">
                         <label for="dob" class="block text-sm text-left mb-2 font-medium">Date of Birth*</label>
-                        <input v-model="dob" type="date" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm" required />
+                        <input v-model="dob" type="date" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm" required />
                     </div>
                     <div class="w-full">
                         <label for="gender" class="block text-sm text-left mb-2 font-medium ">Gender*</label>
-                        <select v-model="gender" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                        <select v-model="gender" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
                         </select> 
                     </div>
                     <div class="w-full">
@@ -49,45 +47,58 @@
                             <label>No</label>
                             <input v-model="guardian" type="radio" :value="false" name="guardian" required />
                         </div>
-                </div>
+                    </div>
                 </div>     
                 <p v-if="guardian" class="text-left text-violet-500 text-sm">Guardian/Parent Details</p>
                 <div v-if="guardian" class="flex gap-4">
                     <div>
-                        <label for="first" class="block text-sm text-left mb-2 font-medium">Guardian First Name*</label>
-                        <input v-model="first" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Guardian First Name' required />
+                        <label for="gFirst" class="block text-sm text-left mb-2 font-medium">Guardian First Name*</label>
+                        <input v-model="gFirst" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Guardian First Name' required />
                     </div>
                     <div>
-                        <label for="second" class="block text-sm text-left mb-2 font-medium ">Guardian Middle Name</label>
-                        <input v-model="second" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Guardian Second Name' />
+                        <label for="gSecond" class="block text-sm text-left mb-2 font-medium ">Guardian Middle Name</label>
+                        <input v-model="gSecond" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Guardian Second Name' />
                     </div>
                     <div>
-                        <label for="last" class="block text-sm text-left mb-2 font-medium ">Guardian Last Name*</label>
-                        <input v-model="last" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Guardian Last Name' required />
+                        <label for="gLast" class="block text-sm text-left mb-2 font-medium ">Guardian Last Name*</label>
+                        <input v-model="gLast" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Guardian Last Name' required />
                     </div>
+                </div>
+                <div v-if="guardian" class="flex gap-4">
+                    <div class="w-full">
+                        <label for="gdob" class="block text-sm text-left mb-2 font-medium">Guardian Date of Birth*</label>
+                        <input v-model="gdob" type="date" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required />
+                    </div>
+                    <div class="w-full">
+                        <label for="gGender" class="block text-sm text-left mb-2 font-medium ">Guardian Gender</label>
+                        <select v-model="gGender" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select> 
+                    </div>            
                 </div>
                 <div class="flex gap-4">
                     <div>
                         <label for="mobile" class="block text-sm text-left mb-2 font-medium ">Phone Number*</label>
-                        <input v-model="mobile" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='+254' required />
+                        <input v-model="mobile" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='+254' required />
                     </div>
                     <div>
                         <label for="email" class="block text-sm text-left mb-2 font-medium ">Email</label>
-                        <input v-model="email" type="email" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='user@email.com'/>
+                        <input v-model="email" type="email" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='user@email.com'/>
                     </div>
                     <div>
                         <label for="address" class="block text-sm text-left mb-2 font-medium ">Address</label>
-                        <input v-model="address" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Westlands'/>
+                        <input v-model="address" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Westlands'/>
                     </div>
                 </div>
                 <div class="flex gap-4">
                     <div class="w-full">
                         <label for="history" class="block text-sm text-left mb-2 font-medium">Family History</label>
-                        <textarea v-model="history" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Family Illness History'/>
+                        <textarea v-model="history" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Family Illness History'/>
                     </div>
                     <div class="w-full">
                         <label for="reason" class="block text-sm text-left mb-2 font-medium ">Select Purpose of the visit*</label>
-                        <select v-model="reason" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
+                        <select v-model="reason" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
                             <option value="emergency">Urgent/Emergency</option>
                             <option value="scheduled care">Scheduled Care</option>
                             <option value="disease management">Disease Management</option>
@@ -99,8 +110,8 @@
                     </div>
                 </div>
                 <div class="flex justify-end gap-4">
-                    <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">next</button>
-                    <button @click="openModal = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">Close</button>
+                    <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">next</button>
+                    <button @click="openModal = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">Close</button>
                 </div>
             </form>
         </div>
@@ -115,17 +126,17 @@
           <div class="flex gap-4">
             <div class='w-full'>
               <label for="complaint" class="block text-sm text-left mb-2 font-medium ">Chief Complaint*</label>
-              <textarea v-model="complaint" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border focus:border-violet-950 bg-violet-200 rounded-md shadow-sm " placeholder='Main concern or reason for the visit' required />
+              <textarea v-model="complaint" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border focus:border-violet-950 bg-violet-200 rounded-md shadow-sm " placeholder='Main concern or reason for the visit' required />
             </div>
           </div>
           <div class="flex gap-4">
             <div class='w-full'>
               <label for="onset" class="block text-sm text-left mb-2 font-medium ">Onset*</label>
-              <input v-model="onset" type="date" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " :max="today" required />
+              <input v-model="onset" type="date" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " :max="today" required />
             </div>
             <div class='w-full'>
               <label for="duration" class="block text-sm text-left mb-2 font-medium ">Duration*</label>
-              <select v-model="duration" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
+              <select v-model="duration" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
                 <option value="hours">Hours</option>
                 <option value="days">Days</option>
                 <option value="weeks">Weeks</option>
@@ -133,7 +144,7 @@
             </div>
             <div class='w-full'>
               <label for="frequency" class="block text-sm text-left mb-2 font-medium ">Frequency*</label>
-              <select v-model="frequency" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
+              <select v-model="frequency" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
                 <option value="constantly">Constant</option>
                 <option value="intermittently">Intermittent</option>
                 <option value="occasionally">Occosional</option>
@@ -143,7 +154,7 @@
           <div class="flex gap-4">
             <div class='w-full'>
               <label for="severity" class="block text-sm text-left mb-2 font-medium ">Severity*</label>
-              <select v-model="severity" type="date" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
+              <select v-model="severity" type="date" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
                 <option value="mild">Mild</option>
                 <option value="moderate">Moderate</option>
                 <option value="severe">Severe</option>
@@ -151,22 +162,22 @@
             </div>
             <div class='w-full'>
               <label for="location" class="block text-sm text-left mb-2 font-medium ">Location*</label>
-              <input v-model="location" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder="symptom location" required/>
+              <input v-model="location" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder="symptom location" required/>
             </div>
             <div class='w-full'>
               <label for="symptomType" class="block text-sm text-left mb-2 font-medium ">Type of Symptom*</label>
-              <input v-model="symptomType" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder="pain" required />
+              <input v-model="symptomType" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder="pain" required />
             </div>
           </div>
           <div class="flex gap-4">
             <div class='w-full'>
               <label for="otherSymptoms" class="block text-sm text-left mb-2 font-medium ">Other Symptoms</label>
-              <textarea v-model="otherSymptoms" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Other Symptoms'/>
+              <textarea v-model="otherSymptoms" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Other Symptoms'/>
             </div>
           </div>
           <div class="flex justify-end gap-4">
-            <button type="button" @click="openModal = true; openPatientSymptoms = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">back</button>
-            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">next</button>
+            <button type="button" @click="openModal = true; openPatientSymptoms = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">back</button>
+            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">next</button>
           </div>
         </form>
       </div>
@@ -182,21 +193,21 @@
             <div class='flex flex-row gap-4 '>
               <div class='flex w-full gap-4'>
                 <label for="general" class="block text-sm text-left mb-2 font-medium ">General</label>
-                <textarea v-model="general" type="text" class="mt-1 ml-20 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
+                <textarea v-model="general" type="text" class="mt-1 ml-20 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
               </div>
               <div class='flex w-full gap-4'>
                 <label for="revCardiovascular" class="block text-sm text-left mb-2 font-medium ">Cardiovascular</label>
-                <textarea v-model="revCardiovascular" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
+                <textarea v-model="revCardiovascular" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
               </div>
             </div>
             <div class='flex flex-row gap-4'>
               <div class='flex w-full gap-4'>
                 <label for="gastrointestinal" class="block text-sm text-left mb-2 font-medium ">Gastrointestinal</label>
-                <textarea v-model="gastrointestinal" type="text" class="mt-1 ml-8 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
+                <textarea v-model="gastrointestinal" type="text" class="mt-1 ml-8 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
               </div>
               <div class='flex w-full gap-4'>
                 <label for="revRespiratory" class="block text-sm text-left mb-2 font-medium ">Respiratory</label>
-                <textarea v-model="revRespiratory" type="text" class="mt-1 ml-6 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
+                <textarea v-model="revRespiratory" type="text" class="mt-1 ml-6 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
               </div>
             </div>
           </div>
@@ -204,27 +215,27 @@
             <div class='flex flex-row gap-4'>
               <div class='flex w-full gap-4'>
                 <label for="genitourinary" class="block text-sm text-left mb-2 font-medium ">Genitourinary</label>
-                <textarea v-model="genitourinary" type="text" class="mt-1 ml-8 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
+                <textarea v-model="genitourinary" type="text" class="mt-1 ml-8 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
               </div>
               <div class='flex w-full gap-4'>
                 <label for="revMusculoskeletal" class="block text-sm text-left mb-2 font-medium ">Musculoskeletal</label>
-                <textarea v-model="revMusculoskeletal" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
+                <textarea v-model="revMusculoskeletal" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
               </div>
             </div>
             <div class='flex flex-row gap-4'>
               <div class='flex w-full gap-4'>
                 <label for="revNeurological" class="block text-sm text-left mb-2 font-medium ">Neurological</label>
-                <textarea v-model="revNeurological" type="text" class="mt-1 ml-10 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
+                <textarea v-model="revNeurological" type="text" class="mt-1 ml-10 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
               </div>
               <div class='flex w-full gap-4'>
                 <label for="psychiatric" class="block text-sm text-left mb-2 font-medium ">Psychiatric</label>
-                <textarea v-model="psychiatric" type="text" class="mt-1 ml-8 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
+                <textarea v-model="psychiatric" type="text" class="mt-1 ml-8 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
               </div>
             </div>
           </div>
           <div class="col-span-2 flex justify-end gap-4 mt-2">
-            <button type="button" @click="navigateBack(); openReview = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">back</button>
-            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">next</button>
+            <button type="button" @click="navigateBack(); openReview = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">back</button>
+            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">next</button>
           </div>
         </form>
       </div>
@@ -242,10 +253,10 @@
               <div class="flex flex-col gap-4 rounded-md p-4">
                 <div class="flex flex-row gap-4">
                   <div class='flex gap-4'>
-                    <input v-model="temperature" type="number" class="mt-1 pl-2 block text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950 w-full h-8" placeholder="temperature" required />
-                    <input v-model="bloodPressure" type="text" class="mt-1 pl-2 block text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950 w-full h-8" placeholder="blood pressure" required />                  
-                    <input v-model="heartRate" type="number" class="mt-1 pl-2 block text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950 w-full h-8" placeholder="heart rate" required />
-                    <input v-model="respiratoryRate" type="number" class="mt-1 pl-2 block text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950 w-full h-8" placeholder="respiratory rate" required />
+                    <input v-model="temperature" type="number" class="mt-1 pl-2 block text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950 w-full h-8" placeholder="temperature" required />
+                    <input v-model="bloodPressure" type="text" class="mt-1 pl-2 block text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950 w-full h-8" placeholder="blood pressure" required />                  
+                    <input v-model="heartRate" type="number" class="mt-1 pl-2 block text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950 w-full h-8" placeholder="heart rate" required />
+                    <input v-model="respiratoryRate" type="number" class="mt-1 pl-2 block text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950 w-full h-8" placeholder="respiratory rate" required />
                   </div>
                 </div>
               </div>
@@ -257,14 +268,14 @@
             <div class='flex flex-col gap-4 rounded-md p-4'>
               <div class='flex flex-row gap-4'>
                 <div class='flex w-full gap-4'>
-                  <textarea v-model="head" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950" placeholder="head" rows='2'/>
-                  <textarea v-model="eyes" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950" placeholder="eyes" rows='2'/>
+                  <textarea v-model="head" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950" placeholder="head" rows='2'/>
+                  <textarea v-model="eyes" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950" placeholder="eyes" rows='2'/>
                 </div>
               </div>
               <div class='flex flex-row gap-4'>
                 <div class='flex w-full gap-4'>
-                  <textarea v-model="nose" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950" placeholder="nose" rows='2'/>
-                  <textarea v-model="throat" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950" placeholder="throat" rows='2'/>
+                  <textarea v-model="nose" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950" placeholder="nose" rows='2'/>
+                  <textarea v-model="throat" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md placeholder-violet-950" placeholder="throat" rows='2'/>
                 </div> 
               </div>
             </div>
@@ -275,27 +286,27 @@
               <div class='flex flex-col gap-4 rounded-md p-4'>
                 <div class='flex flex-row gap-4'>
                   <div class='flex w-full gap-4'>
-                    <textarea v-model="abdominal" type="text" class="mt-1 placeholder-violet-950 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Abdominal" rows='3'/>
-                    <textarea v-model="cardiovascular" type="text" class="mt-1 pl-2 placeholder-violet-950 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Cardiovascular" rows='3'/>
+                    <textarea v-model="abdominal" type="text" class="mt-1 placeholder-violet-950 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Abdominal" rows='3'/>
+                    <textarea v-model="cardiovascular" type="text" class="mt-1 pl-2 placeholder-violet-950 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Cardiovascular" rows='3'/>
                   </div>
                 </div>
                 <div class='flex flex-row gap-4'>
                   <div class='flex w-full gap-4'>
-                    <textarea v-model="musculoskeletal" type="text" class="mt-1 pl-2 placeholder-violet-950 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Musculoskeletal" rows='3'/>
-                    <textarea v-model="neurological" type="text" class="mt-1 pl-2 block placeholder-violet-950 w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Neurological" rows='3'/>
+                    <textarea v-model="musculoskeletal" type="text" class="mt-1 pl-2 placeholder-violet-950 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Musculoskeletal" rows='3'/>
+                    <textarea v-model="neurological" type="text" class="mt-1 pl-2 block placeholder-violet-950 w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Neurological" rows='3'/>
                   </div>
                 </div>
                 <div class='flex flex-row gap-4'>
                   <div class='flex w-full gap-4'>
-                    <textarea v-model="respiratory" type="text" class="mt-1 pl-2 block placeholder-violet-950 w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Respiratory" rows='3'/>
-                    <textarea v-model="skin" type="text" class="mt-1 pl-2 block w-full placeholder-violet-950 text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Skin" rows='3'/>
+                    <textarea v-model="respiratory" type="text" class="mt-1 pl-2 block placeholder-violet-950 w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Respiratory" rows='3'/>
+                    <textarea v-model="skin" type="text" class="mt-1 pl-2 block w-full placeholder-violet-950 text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder="Skin" rows='3'/>
                   </div>
                 </div>
               </div>
             </div> 
           <div class="flex justify-end gap-4 mt-2">
-            <button type="button" @click="openReview = true; openPhysical = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">back</button>
-            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">next</button>
+            <button type="button" @click="openReview = true; openPhysical = false" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">back</button>
+            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">next</button>
           </div>
         </div>
         </form>
@@ -311,34 +322,34 @@
             <div class="flex flex-col gap-4">
               <div>
                 <label for="testName" class="block text-sm text-left mb-2 font-medium ">Test Name</label>
-                <input v-model="testName" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder='Enter test conducted' />
+                <input v-model="testName" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " placeholder='Enter test conducted' />
               </div>
               <div>
                 <label for="testResult" class="block text-sm text-left mb-2 font-medium ">Test Results</label>
-                <textarea v-model="testResult" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " rows='3'/>
+                <textarea v-model="testResult" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " rows='3'/>
               </div>
               <div>
                 <label for="referenceRange" class="block text-sm text-left mb-2 font-medium ">Reference Range</label>
-                <textarea v-model="referenceRange" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " rows='3'/>
+                <textarea v-model="referenceRange" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " rows='3'/>
               </div>
             </div>
             <div class="flex flex-col gap-4">
               <div>
                 <label for="interpretation" class="block text-sm text-left mb-2 font-medium ">Interpretation</label>
-                <textarea v-model="interpretation" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md  " rows='4'/>
+                <textarea v-model="interpretation" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md  " rows='4'/>
               </div>
               <div>
                 <label for="followup" class="block text-sm text-left mb-2 font-medium ">Follow Up</label>
-                <textarea v-model="followup" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " rows='4'/>
+                <textarea v-model="followup" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " rows='4'/>
               </div>
             </div>
             <div class="flex justify-center gap-4 col-span-2">
-              <button @click="addResults" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">Add Another Test</button>
+              <button @click="addResults" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">Add Another Test</button>
             </div>
           </div>
           <div class="flex justify-end gap-4">
-            <button @click="openPhysical = true; openLabResult = false" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">back</button>
-            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">next</button>
+            <button @click="openPhysical = true; openLabResult = false" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">back</button>
+            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">next</button>
           </div>
         </form>
       </div>
@@ -351,11 +362,11 @@
         <form @submit.prevent="fillTreatmentPlan" class="flex flex-col gap-4">
           <div class="flex flex-row gap-4">
             <label for="diagnosis" class="block text-sm text-left mb-2 font-medium ">Diagniosis*</label>
-            <textarea v-model="diagnosis" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " required rows='3'/>
+            <textarea v-model="diagnosis" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " required rows='3'/>
           </div>
           <div class="flex flex-row gap-4">
             <label for="treatment" class="block text-sm text-left mb-2 font-medium ">Treatment Plan*</label>
-            <textarea v-model="treatment" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md " required rows='4'/>
+            <textarea v-model="treatment" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md " required rows='4'/>
           </div>
           <div class="flex flex-row content-center">
             <div class="border border-violet-900 h-0 w-full mt-2"/>
@@ -367,13 +378,13 @@
               <div class="flex w-full gap-4">
                 <div>
                   <label for="medicineName" class="block text-sm text-left mb-2 font-medium ">Medicine Name</label>
-                  <input v-model="medicineName" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md "/>
+                  <input v-model="medicineName" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md "/>
                 </div>
                 <div class="w-12">
                   <label for="quantity" class="block text-sm text-left mb-2 font-medium ">Qty</label>
-                  <input v-model="quantity" type="number" class="mt-1 pl-2 block w-full text-sm py-2 border bg-violet-200 focus:border-violet-950 rounded-md text-dark-blue"/>
+                  <input v-model="quantity" type="number" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md text-dark-blue"/>
                 </div>
-                <button @click="addMedicine" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md h-[38px] mt-[28px]">add</button>
+                <button @click="addMedicine" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md h-[38px] mt-[28px]">add</button>
       
               </div>
               <div v-if="qtyValidStatus" class="mt-4">
@@ -389,8 +400,8 @@
             </div>
           </div>
           <div class="flex justify-end gap-4">
-            <button @click="openLabResult = true; openDiagnosis = false" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">back</button>
-            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md focus:ring focus:ring-btn-fcs">next</button>
+            <button @click="openLabResult = true; openDiagnosis = false" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">back</button>
+            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md focus:ring focus:ring-btn-fcs">next</button>
           </div>
         </form>
       </div>
@@ -411,41 +422,41 @@
             <h4 class="text-center text-violet-600">General Health</h4>
             <div>
               <label for="currentStatus" class="block text-sm text-left mb-2 font-medium ">Current Health</label>
-              <textarea v-model="currentStatus" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
+              <textarea v-model="currentStatus" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
             </div>
             <div>
               <label for="allergies" class="block text-sm text-left mb-2 font-medium ">Current Health</label>
-              <textarea v-model="allergies" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
+              <textarea v-model="allergies" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
             </div>
             <div>
               <label for="medications" class="block text-sm text-left mb-2 font-medium ">Medications</label>
-              <textarea v-model="medications" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
+              <textarea v-model="medications" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
             </div>
             <div>
               <label for="surgeries" class="block text-sm text-left mb-2 font-medium ">Surgeries</label>
-              <textarea v-model="surgeries" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
+              <textarea v-model="surgeries" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
             </div>
             <div>
               <label for="hospitalization" class="block text-sm text-left mb-2 font-medium ">Hospitalizations</label>
-              <textarea v-model="hospitalization" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
+              <textarea v-model="hospitalization" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
             </div>
           </div>
           <div class="flex flex-col gap-4">
             <h4 class="text-center text-violet-600">Family History</h4>
             <div>
               <label for="parent" class="block text-sm text-left mb-2 font-medium ">Parent's Health Status</label>
-              <textarea v-model="parent" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
+              <textarea v-model="parent" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
             </div>
             <div>
               <label for="sibling" class="block text-sm text-left mb-2 font-medium ">Siblings Health Status</label>
-              <textarea v-model="sibling" type="text" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
+              <textarea v-model="sibling" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
             </div>
           </div> 
           <div class="flex justify-end gap-4 h-10">
-              <button @click="openModal = true; openPatientInfo = false" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">back</button>
+              <button @click="openModal = true; openPatientInfo = false" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">back</button>
           </div>
           <div class="flex justify-start gap-4 h-10">
-              <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">next</button>
+              <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">next</button>
           </div> 
         </form>
       </div>
@@ -462,7 +473,24 @@
     const openModal = ref(false);
     const authStore = useAuthStore();
     const modalStore = usePatientModalStore();
+    
     const guardian = ref(false);
+    const first = ref("");
+    const second = ref("");
+    const last = ref("");
+    const dob = ref("");
+    const gender = ref("");
+    const gFirst = ref("");
+    const gSecond = ref("");
+    const gLast = ref("");
+    const gdob = ref("");
+    const gGender = ref("");
+    const mobile = ref("");
+    const email = ref("");
+    const history = ref("");
+    const reason = ref("");
+    const address = ref("");
+
 
     const alert = ref({ visible: false, message: '' });
     function showAlert(message) {
@@ -472,30 +500,34 @@
         }, 3000); 
     }
 
-    // Look up modal
-    const first = ref("");
-    const second = ref("");
-    const last = ref("");
-    const mobile = ref("");
-    const reason = ref("");
-
-    async function LookUpPatient() {
-        if (first.value && mobile.value && reason.value) {
-
-            // check if user is already registered
+    
+    async function RegisterPatient() {
+        // If Patient is a Kid
+        if (mobile.value && guardian.value && reason.value) {
             try {
-                const response = await fetch("http://127.0.0.1:8000/patient/check-patient", {
+                const response = await fetch("http://127.0.0.1:8000/patient/register-patient", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         'Authorization': `Bearer ${authStore.getAccessToken}`,
                     },
                     body: JSON.stringify({
+                        "d_first": first.value,
+                        "d_middle": second.value,
+                        "d_last": last.value,
+                        "d_dob": dob.value,
+                        "d_gender": gender.value,
+                        "first" : gFirst.value,
+                        "middle" : gSecond.value,
+                        "last": gLast.value,
                         "mobile": mobile.value,
+                        "dob": gdob.value,
+                        "address": address.value,
+                        "guardian": guardian.value,
+                        "history": history.value,
+                        "gender": gender.value,
+                        "email": email.value,
                         "reason": reason.value,
-                        "first": first.value,
-                        "second": second.value,
-                        "last": last.value,
                     }),
                 });
 
@@ -505,36 +537,47 @@
                 }
 
                 const success = await response.json();
-                if (success.registered) {
-                    if (reason.value === "emergency") {
-                        modalStore.emergencyModal();
-                        openModal.value = false;
-                    } else if (reason.value === "scheduled care") {
-                        modalStore.scheduledModal();
-                        openModal.value = false;
-                    } else if (reason.value === "disease management") {
-                        modalStore.managementModal();
-                        openModal.value = false;
-                    } else if (reason.value === "maternity care") {
-                        modalStore.maternityModal();
-                        openModal.value = false;
-                    } else if (reason.value === "rehabilitation") {
-                        modalStore.rehabilitationModal();
-                        openModal.value = false;
-                    } else if (reason.value === "palliative care") {
-                        modalStore.palliativeModal();
-                        openModal.value = false;
-                    } else if (reason.value === "consultation") {
-                        modalStore.consultationModal();
-                        openModal.value = false;
-                    } else {
-                        showAlert("Invalid reason provided. Please try again")
-                        openModal.value = false;
-                    }
-                } else {
-                    modalStore.registerModal();
-                    openModal.value = false;
+                showAlert(success.message);
+            } catch (error) {
+                console.error(error);
+                throw error; 
+            }   
+        } else {
+            // Adult Patient
+            try {
+                const response = await fetch("http://127.0.0.1:8000/patient/register-patient", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${authStore.getAccessToken}`,
+                    },
+                    body: JSON.stringify({
+                        "d_first": gFirst.value,
+                        "d_middle": gSecond.value,
+                        "d_last": gLast.value,
+                        "d_dob": gdob.value,
+                        "d_gender": gGender.value,
+                        "first" : first.value,
+                        "middle" : second.value,
+                        "last": last.value,
+                        "mobile": mobile.value,
+                        "dob": dob.value,
+                        "address": address.value,
+                        "guardian": guardian.value,
+                        "history": history.value,
+                        "gender": gender.value,
+                        "email": email.value,
+                        "reason": reason.value,
+                    }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    showAlert(errorData.error);
                 }
+
+                const success = await response.json();
+                showAlert(success.message);
             } catch (error) {
                 console.error(error);
                 throw error; 
