@@ -504,8 +504,9 @@
     async function RegisterPatient() {
         // If Patient is a Kid
         if (mobile.value && guardian.value && reason.value) {
+            const backend = "patient/register-patient";
             try {
-                const response = await fetch("http://127.0.0.1:8000/patient/register-patient", {
+                const response = await fetch(`http://127.0.0.1:8000 + ${backend}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
