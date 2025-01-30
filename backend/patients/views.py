@@ -7,10 +7,55 @@ from .models import Patient
 from .serializers import PatientSerializer, DependantSerializer, RecordSerializer
 
 
-def get_convert_request_to_patient_object(request):
+def convert_request_to_patient_object(data):
     """
-        Retrieves and returns 
+        Retrieves and returns patient details in object format
     """
+    return {
+        "first_name" : data.get("first"),
+        "middle_name" : data.get("middle"),
+        "last_name" : data.get("last"),
+        "mobile" : data.get("mobile"),
+        "age" : data.get("dob"),
+        "address" : data.get("address"),
+        "guardian" : data.get("guardian"),
+        "family_history" : data.get("family_history"),
+        "gender" : data.get("gender"),
+        "email" : data.get("email")
+    }
+
+
+def retrieve_guardian_data(data):
+    """
+        Retrieves and returns patient details in object format
+    """
+    return {
+        "first_name" : data.get("g_first"),
+        "middle_name" : data.get("g_middle"),
+        "last_name" : data.get("g_last"),
+        "mobile" : data.get("mobile"),
+        "age" : data.get("g_dob"),
+        "address" : data.get("address"),
+        "guardian" : data.get("guardian"),
+        "family_history" : data.get("family_history"),
+        "gender" : data.get("gender"),
+        "email" : data.get("email")
+    }
+
+
+def retrieve_dependant_data(data, id):
+    """
+        Retrieves and returns dependant details in object format
+    """
+    return {
+        "guardian" : id,
+        "first_name" : data.get("first"),
+        "middle_name" : data.get("middle"),
+        "last_name" : data.get("last"),
+        "age": data.get("dob"),
+        "gender": data.get("gender")
+    }
+
 
 class RegisterPatient(APIView):
     permission_classes = [IsAuthenticated]
