@@ -195,7 +195,7 @@ export const useAuthStore = defineStore('auth', {
 
         async APICall ({body, api}) {
             try {
-                const response = await fetch(`http://127.0.0.1:8000 + ${api}`, {
+                const response = await fetch(`http://127.0.0.1:8000/${api}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -206,13 +206,22 @@ export const useAuthStore = defineStore('auth', {
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    return errorData.error;
+                    return { 
+                        success: false,
+                        message: errorData.error,
+                    };
                 }
 
                 const success = await response.json();
-                return success.message;
+                return {
+                    success: true,
+                    message: success.message,
+                };
             } catch (error) {
-                return error; 
+                return { 
+                    success: false,
+                    message: error,
+                }; 
             }
         },
     },

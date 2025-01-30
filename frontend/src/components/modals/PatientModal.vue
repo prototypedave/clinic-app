@@ -80,7 +80,7 @@
                 <div class="flex gap-4">
                     <div>
                         <label for="mobile" class="block text-sm text-left mb-2 font-medium ">Phone Number*</label>
-                        <input v-model="mobile" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='+254' required />
+                        <input v-model="mobile" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='+254' required @input='validatePhoneNumber'/>
                     </div>
                     <div>
                         <label for="email" class="block text-sm text-left mb-2 font-medium ">Email</label>
@@ -91,6 +91,7 @@
                         <input v-model="address" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Westlands'/>
                     </div>
                 </div>
+                <p v-if="error" class="text-red-500 text-sm mt-2">{{ error }}</p>
                 <div class="flex gap-4">
                     <div class="w-full">
                         <label for="history" class="block text-sm text-left mb-2 font-medium">Family History</label>
@@ -493,6 +494,7 @@
 
 
     const alert = ref({ visible: false, message: '' });
+    const error = ref("");
     function showAlert(message) {
         alert.value = { visible: true, message };
         setTimeout(() => {
@@ -502,87 +504,65 @@
 
     
     async function RegisterPatient() {
+        const backend = "patient/register-patient";
+
         // If Patient is a Kid
-        if (mobile.value && guardian.value && reason.value) {
-            const backend = "patient/register-patient";
-            try {
-                const response = await fetch(`http://127.0.0.1:8000 + ${backend}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': `Bearer ${authStore.getAccessToken}`,
-                    },
-                    body: JSON.stringify({
-                        "d_first": first.value,
-                        "d_middle": second.value,
-                        "d_last": last.value,
-                        "d_dob": dob.value,
-                        "d_gender": gender.value,
-                        "first" : gFirst.value,
-                        "middle" : gSecond.value,
-                        "last": gLast.value,
-                        "mobile": mobile.value,
-                        "dob": gdob.value,
-                        "address": address.value,
-                        "guardian": guardian.value,
-                        "history": history.value,
-                        "gender": gender.value,
-                        "email": email.value,
-                        "reason": reason.value,
-                    }),
-                });
+        if (mobile.value && guardian.value && reason.value) { 
+            const body = JSON.stringify({
+                "d_first": first.value,
+                "d_middle": second.value,
+                "d_last": last.value,
+                "d_dob": dob.value,
+                "d_gender": gender.value,
+                "first" : gFirst.value,
+                "middle" : gSecond.value,
+                "last": gLast.value,
+                "mobile": mobile.value,
+                "dob": gdob.value,
+                "address": address.value,
+                "guardian": guardian.value,
+                "history": history.value,
+                "gender": gender.value,
+                "email": email.value,
+                "reason": reason.value,
+            });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    showAlert(errorData.error);
-                }
-
-                const success = await response.json();
-                showAlert(success.message);
-            } catch (error) {
-                console.error(error);
-                throw error; 
-            }   
+            // poll backend
+            const msg = await authStore.APICall({ body: body, api: backend });
+            showAlert(msg.message);
+                
         } else {
             // Adult Patient
-            try {
-                const response = await fetch("http://127.0.0.1:8000/patient/register-patient", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': `Bearer ${authStore.getAccessToken}`,
-                    },
-                    body: JSON.stringify({
-                        "d_first": gFirst.value,
-                        "d_middle": gSecond.value,
-                        "d_last": gLast.value,
-                        "d_dob": gdob.value,
-                        "d_gender": gGender.value,
-                        "first" : first.value,
-                        "middle" : second.value,
-                        "last": last.value,
-                        "mobile": mobile.value,
-                        "dob": dob.value,
-                        "address": address.value,
-                        "guardian": guardian.value,
-                        "history": history.value,
-                        "gender": gender.value,
-                        "email": email.value,
-                        "reason": reason.value,
-                    }),
-                });
+            const body = JSON.stringify({
+                "d_first": gFirst.value,
+                "d_middle": gSecond.value,
+                "d_last": gLast.value,
+                "d_dob": gdob.value,
+                "d_gender": gGender.value,
+                "first" : first.value,
+                "middle" : second.value,
+                "last": last.value,
+                "mobile": mobile.value,
+                "dob": dob.value,
+                "address": address.value,
+                "guardian": guardian.value,
+                "history": history.value,
+                "gender": gender.value,
+                "email": email.value,
+                "reason": reason.value,
+            });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    showAlert(errorData.error);
-                }
+            const msg = await authStore.APICall({ body: body, api: backend });
+            showAlert(msg.message);
+        }
+    }
 
-                const success = await response.json();
-                showAlert(success.message);
-            } catch (error) {
-                console.error(error);
-                throw error; 
-            }   
+    function validatePhoneNumber () {
+        const start = /^\+254/;
+        if (!start.test(mobile.value) && mobile.value != "") {
+            error.value = "Mobile number should start with +254";
+        } else {
+            error.value = "";
         }
     }
 
