@@ -46,5 +46,5 @@ class RecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = PatientRecord
         fields = [
-            "patient", "guardian", "reason", 
+            "patient", "dependant", "reason", 
         ]

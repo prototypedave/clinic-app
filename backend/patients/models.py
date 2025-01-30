@@ -82,7 +82,7 @@ class PatientDependant(models.Model):
 
 class PatientRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient', null=True, blank=True)
-    guardian = models.ForeignKey(PatientDependant, on_delete=models.CASCADE, related_name='dependant', null=True, blank=True)
+    dependant = models.ForeignKey(PatientDependant, on_delete=models.CASCADE, related_name='dependant', null=True, blank=True)
     reason = models.TextField(_('Reason for visit'), null=False, blank=False)
     visit_date = models.DateTimeField(auto_now=True)
 
