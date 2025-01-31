@@ -492,6 +492,7 @@
     const reason = ref("");
     const address = ref("");
 
+    const check = ref(false);
 
     const alert = ref({ visible: false, message: '' });
     const error = ref("");
@@ -530,6 +531,7 @@
             // poll backend
             const msg = await authStore.APICall({ body: body, api: backend });
             showAlert(msg.message);
+            check.value = msg.success;
                 
         } else {
             // Adult Patient
@@ -554,6 +556,14 @@
 
             const msg = await authStore.APICall({ body: body, api: backend });
             showAlert(msg.message);
+            check.value = msg.success;
+        }
+
+        if (check.value) {
+            if (reason.value === "emergency") {
+                modalStore.emergencyModal();
+                openModal.value = false;
+            }
         }
     }
 
@@ -568,9 +578,9 @@
 
 </script>
 
-  <style>
-  .disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-  }
+<style>
+    .disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
 </style>
