@@ -87,5 +87,5 @@ class RegisterPatient(APIView):
             return JsonResponse({"message": "Patient Registered Successfully"}, status=status.HTTP_200_OK)
 
         except Exception as e:
-            transaction.set_rollback(True)  # Ensures rollback of all saved objects
+            transaction.set_rollback(True)  
             return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

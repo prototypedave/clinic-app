@@ -84,6 +84,12 @@ class PatientRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient', null=True, blank=True)
     dependant = models.ForeignKey(PatientDependant, on_delete=models.CASCADE, related_name='dependant', null=True, blank=True)
     reason = models.TextField(_('Reason for visit'), null=False, blank=False)
+    complaint = models.TextField(_('Chief Complaint'), null=True, blank=True)
+    onset = models.TextField(_('Onset of Symptoms'), null=True, blank=True)
+    location = models.TextField(_('Location of Symptoms'), null=True, blank=False)
+    severity = models.TextField(_('Severity of the symptoms'), null=True, blank=True)
+    character = models.TextField(_('Character of Pain/Symptoms'), null=True, blank=True)
+    factors = models.TextField(_('Aggreviating factors'), null=True, blank=True)
     visit_date = models.DateTimeField(auto_now=True)
 
     class Meta:
