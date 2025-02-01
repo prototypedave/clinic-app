@@ -469,7 +469,7 @@
     import { ref } from 'vue';
     import { useAuthStore } from '@/stores/auth';
     import { usePatientModalStore } from '@/stores/patientModal';
-    import Register from '@/components/patients/Register.vue';
+    import Register from '@/components/patients/EmergencyForm.vue';
 
     const openModal = ref(false);
     const authStore = useAuthStore();

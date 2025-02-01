@@ -3,7 +3,7 @@
       	<div class="bg-violet-300 rounded-lg shadow-lg p-8 w-full max-w-2xl shadow text-violet-950">        
         	<h2 class="text-xl font-bold mb-4 text-center"> Patient Emergency Form </h2>
         	<p class="text-center text-violet-500 mb-4"> Please fill in all the required fields * </p>
-        	<form @submit.prevent="getPatientInfo" class="flex flex-col gap-4">
+        	<form @submit.prevent="getEmergencyData" class="flex flex-col gap-4">
           		<div class="flex justify-between gap-4">
           			<div class='w-full'>
                 		<label for="complaint" class="block text-sm text-left mb-2 font-medium ">Chief Complaint*</label>
@@ -15,21 +15,21 @@
               		</div>
             	</div>
             	<div class="flex justify-between gap-4">
-              		<div>
+              		<div class='w-full'>
 	                	<label for="location" class="block text-sm text-left mb-2 font-medium ">Location of Pain/Symptoms*</label>
-	                	<textarea v-model="location" class="mt-1 pl-2 block  text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Left chest...' required/>
+	                	<textarea v-model="location" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Left chest...' />
               		</div>
-              		<div>
+              		<div class='w-full'>
                 		<label for="severity" class="block text-sm text-left mb-2 font-medium ">Severity of Pain/Symptoms*</label>
-                		<textarea v-model="severity" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Moderate' required/>
+                		<textarea v-model="severity" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Moderate' />
               		</div>
             	</div>
               	<div class="flex justify-between gap-4">	
-                	<div>
+                	<div class='w-full'>
                   		<label for="character" class="block text-sm text-left mb-2 font-medium ">Character of Pain/Symptoms</label>
                   		<textarea v-model="character" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Sharp, Dull...'/>
                 	</div>
-                	<div>
+                	<div class='w-full'>
                   		<label for="factors" class="block text-sm text-left mb-2 font-medium ">Aggravating/Alleviating Factors</label>
                   		<textarea v-model="factors" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Aggravating/Alleviating Factors' />
                 	</div>
@@ -51,6 +51,39 @@
 
     const authStore = useAuthStore();
     const modalStore = usePatientModalStore();
-    const openRegister = computed(() => modalStore.getRegister);
+    const openEmergency = computed(() => modalStore.getEmergency);
+
+    const complaint = ref('');
+    const onset = ref('');
+    const location = ref('');
+    const severity = ref('');
+    const character = ref('');
+    const factors = ref('');
+    const check = ref(false);
+
+    async function getEmergencyData () {
+        const backend = "patient/emergency-record";
+
+        if (complaint.value && onset.value) { 
+            const body = JSON.stringify({
+                "complaint": complaint.value,
+                "onset": onset.value,
+                "location": location.value,
+                "severity": severity.value,
+                "character": character.value,
+                "factors" : factors.value,
+            });
+
+            // poll backend
+            const msg = await authStore.APICall({ body: body, api: backend });
+            showAlert(msg.message);
+            check.value = msg.success;
+                
+        }
+
+        if (check.value) {
+            modalStore.vitalModal();
+        }
+    }
 
 </script>
