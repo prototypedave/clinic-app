@@ -72,6 +72,7 @@
                 "severity": severity.value,
                 "character": character.value,
                 "factors" : factors.value,
+                "id" : modalStore.getId,
             });
 
             // poll backend
