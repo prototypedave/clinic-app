@@ -9,6 +9,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 		openPalliative: false,
 		openConsultation: false,
 		openRegister: false,
+		id: null,
 	}),
 	actions: {
 		emergencyModal () {
@@ -108,6 +109,10 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openPalliative = false;
 			this.openConsultation = false;
 			this.openRegister = false;
+		},
+
+		setId ({ id }) {
+			this.setId = id;
 		}
 	},
 	getters: {
@@ -119,5 +124,6 @@ export const usePatientModalStore = defineStore('patientModal', {
 		getPalliative: (state) => state.openPalliative,
 		getConsultation: (state) => state.openConsultation,
 		getRegister: (state) => state.openRegister,
+		getId: (state) => state.id,
 	},
 });

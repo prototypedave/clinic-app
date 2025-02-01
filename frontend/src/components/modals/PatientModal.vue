@@ -532,6 +532,7 @@
             const msg = await authStore.APICall({ body: body, api: backend });
             showAlert(msg.message);
             check.value = msg.success;
+            modalStore.setId({ id: msg.id });
                 
         } else {
             // Adult Patient
@@ -557,6 +558,7 @@
             const msg = await authStore.APICall({ body: body, api: backend });
             showAlert(msg.message);
             check.value = msg.success;
+            modalStore.setId({ id: msg.id });
         }
 
         if (check.value) {
