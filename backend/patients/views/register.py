@@ -3,7 +3,7 @@ from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from .serializers import PatientSerializer, DependantSerializer, RecordSerializer
+from ..serializers import PatientSerializer, DependantSerializer, RecordSerializer
 
 
 def convert_request_to_patient_object(data):
@@ -82,9 +82,9 @@ class RegisterPatient(APIView):
             if not record.is_valid():
                 raise ValueError("Error Saving Patient Record Information", record.errors)
 
-            record.save()
+            instance = record.save()
 
-            return JsonResponse({"message": "Patient Registered Successfully"}, status=status.HTTP_200_OK)
+            return JsonResponse({"message": "Patient Registered Successfully", "id": instance.id }, status=status.HTTP_200_OK)
 
         except Exception as e:
             transaction.set_rollback(True)  

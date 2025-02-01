@@ -50,6 +50,6 @@ class EmergencyRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = PatientRecord
         fields = [
-            "patient", "dependant", "complaint", "onset", "location", "severity",
+            "complaint", "onset", "location", "severity",
             "character", "factors"
         ]
