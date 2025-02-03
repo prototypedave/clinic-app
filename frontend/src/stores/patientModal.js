@@ -10,96 +10,9 @@ export const usePatientModalStore = defineStore('patientModal', {
 		openConsultation: false,
 		openRegister: false,
 		id: null,
+		vitals: false,
 	}),
 	actions: {
-		emergencyModal () {
-			this.openEmergency = true;
-			this.openScheduled = false;
-			this.openManagement = false;
-			this.openMaternity = false;
-			this.openRehabilitation = false;
-			this.openPalliative = false;
-			this.openConsultation = false;
-			this.openRegister = false;
-		},
-
-		scheduledModal () {
-			this.openEmergency = false;
-			this.openScheduled = true;
-			this.openManagement = false;
-			this.openMaternity = false;
-			this.openRehabilitation = false;
-			this.openPalliative = false;
-			this.openConsultation = false;
-			this.openRegister = false;
-		},
-
-		managementModal () {
-			this.openEmergency = false;
-			this.openScheduled = false;
-			this.openManagement = true;
-			this.openMaternity = false;
-			this.openRehabilitation = false;
-			this.openPalliative = false;
-			this.openConsultation = false;
-			this.openRegister = false;
-		},
-
-		maternityModal () {
-			this.openEmergency = false;
-			this.openScheduled = false;
-			this.openManagement = false;
-			this.openMaternity = true;
-			this.openRehabilitation = false;
-			this.openPalliative = false;
-			this.openConsultation = false;
-			this.openRegister = false;
-		},
-
-		rehabilitationModal () {
-			this.openEmergency = false;
-			this.openScheduled = false;
-			this.openManagement = false;
-			this.openMaternity = false;
-			this.openRehabilitation = true;
-			this.openPalliative = false;
-			this.openConsultation = false;
-			this.openRegister = false;
-		},
-
-		palliativeModal () {
-			this.openEmergency = false;
-			this.openScheduled = false;
-			this.openManagement = false;
-			this.openMaternity = false;
-			this.openRehabilitation = false;
-			this.openPalliative = true;
-			this.openConsultation = false;
-			this.openRegister = false;
-		},
-
-		consultationModal () {
-			this.openEmergency = false;
-			this.openScheduled = false;
-			this.openManagement = false;
-			this.openMaternity = false;
-			this.openRehabilitation = false;
-			this.openPalliative = false;
-			this.openConsultation = true;
-			this.openRegister = false;
-		},
-
-		registerModal () {
-			this.openEmergency = false;
-			this.openScheduled = false;
-			this.openManagement = false;
-			this.openMaternity = false;
-			this.openRehabilitation = false;
-			this.openPalliative = false;
-			this.openConsultation = false;
-			this.openRegister = true;
-		},
-
 		reset () {
 			this.openEmergency = false;
 			this.openScheduled = false;
@@ -109,6 +22,43 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openPalliative = false;
 			this.openConsultation = false;
 			this.openRegister = false;
+			this.vitals = false
+		},
+
+		emergencyModal () {
+			this.openEmergency = true;
+		},
+
+		scheduledModal () {
+			this.openScheduled = true;
+		},
+
+		managementModal () {
+			this.openManagement = true;
+		},
+
+		maternityModal () {
+			this.openMaternity = true;
+		},
+
+		rehabilitationModal () {
+			this.openRehabilitation = true;
+		},
+
+		palliativeModal () {
+			this.openPalliative = true;
+		},
+
+		consultationModal () {
+			this.openConsultation = true;
+		},
+
+		registerModal () {
+			this.openRegister = true;
+		},
+
+		vitalModal () {
+			this.vitals = true;
 		},
 
 		setId ({ id }) {
@@ -125,5 +75,6 @@ export const usePatientModalStore = defineStore('patientModal', {
 		getConsultation: (state) => state.openConsultation,
 		getRegister: (state) => state.openRegister,
 		getId: (state) => state.id,
+		getVitals: (state) => state.vitals,
 	},
 });

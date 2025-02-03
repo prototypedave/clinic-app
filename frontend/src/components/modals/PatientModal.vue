@@ -563,6 +563,7 @@
 
         if (check.value) {
             if (reason.value === "emergency") {
+                modalStore.reset();
                 modalStore.emergencyModal();
                 openModal.value = false;
             }
