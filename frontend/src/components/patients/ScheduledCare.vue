@@ -18,9 +18,10 @@
                     </div>
           			<div class='w-full'>
                 		<label for="date" class="block text-sm text-left mb-2 font-medium ">Appointment Date*</label>
-                		<input v-model="date" type="date" class="mt-1 pl-2 block w-full text-sm py-2 bg-violet-200 focus:border-violet-950 rounded-md shadow-sm" required :min="minDate" />
+                		<input v-model="date" type="date" class="mt-1 pl-2 block w-full text-sm py-2 bg-violet-200 focus:border-violet-950 rounded-md shadow-sm" required :min="minDate" @change='disableDate'/>
               		</div>
             	</div>
+                <p v-if="dateMessage" class="text-sm text-red-500 mt-1">{{ dateMessage }}</p> 
             	<div class="flex justify-between gap-4">
               		<div class='w-full'>
                         <label for="start" class="block text-sm text-left mb-2 font-medium ">Start time*</label>
@@ -68,8 +69,10 @@
     const maxTime = ref('20:00');
 
     const notifyMessage = ref('');
+    const dateMessage = ref('');
+
     const events = ref([
-        { id: 1, start: '2025-02-08 07:00', end: '2025-02-08 20:00', title: 'David', calendarId: 'patient' },
+        { id: 1, start: '2025-02-08 07:00', end: '2025-02-08 21:00', title: 'David', calendarId: 'patient' },
         { id: 2, start: '2025-02-28 08:00', end: '2025-02-28 10:00', title: 'Alfonso', calendarId: 'patient' },
         { id: 3, start: '2025-02-28 10:00', end: '2025-02-28 11:00', title: 'Alfonso', calendarId: 'patient' },
     ]);
@@ -128,6 +131,37 @@
             notifyMessage.value = '';
         } else {
             notifyMessage.value = 'Appointment should be 15 minutes or more';
+        }
+    };
+
+    function isDayFullyBooked(date) {
+    const dayEvents = events.value.filter(event => event.start.startsWith(date));
+    dayEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
+
+    let previousEnd = parseTimeToMinutes("07:00"); 
+
+    for (const event of dayEvents) {
+        const eventStart = parseTimeToMinutes(event.start.slice(11));
+        const eventEnd = parseTimeToMinutes(event.end.slice(11));
+
+        // If there is a gap between the previous event end and the current event start
+        if (eventStart > previousEnd) {
+            return false;
+        }
+        previousEnd = Math.max(previousEnd, eventEnd);
+    }
+
+    // Ensure the last event reaches the end of the day (20:59)
+    return previousEnd >= parseTimeToMinutes("20:59");
+}
+
+
+    function disableDate () {
+        if (isDayFullyBooked(date.value)) {
+            dateMessage.value = 'Fully booked date or Physician absent on this date';
+            date.value = '';
+        } else {
+            dateMessage.value = '';
         }
     };
     
