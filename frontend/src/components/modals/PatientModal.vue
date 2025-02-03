@@ -410,58 +410,11 @@
 
     <!-- Invoice -->
 
-    <Register />
-    <!-- patient data -->
+    <Emergency />
+    <Scheduled />
     
 
-    <!-- medical history -->
-    <div v-if="openHistory" class="fixed inset-0 z-40 flex justify-center items-center bg-violet-950 bg-opacity-50">
-      <div class="bg-violet-300 text-violet-950 rounded-lg shadow-lg p-8 w-full max-w-2xl shadow">        
-        <h2 class="text-xl font-bold mb-4 text-center"> Medical History </h2>
-        <form @submit.prevent="getHistory" class="grid grid-cols-2 gap-4">
-          <div class="flex flex-col gap-4">
-            <h4 class="text-center text-violet-600">General Health</h4>
-            <div>
-              <label for="currentStatus" class="block text-sm text-left mb-2 font-medium ">Current Health</label>
-              <textarea v-model="currentStatus" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
-            </div>
-            <div>
-              <label for="allergies" class="block text-sm text-left mb-2 font-medium ">Current Health</label>
-              <textarea v-model="allergies" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
-            </div>
-            <div>
-              <label for="medications" class="block text-sm text-left mb-2 font-medium ">Medications</label>
-              <textarea v-model="medications" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
-            </div>
-            <div>
-              <label for="surgeries" class="block text-sm text-left mb-2 font-medium ">Surgeries</label>
-              <textarea v-model="surgeries" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
-            </div>
-            <div>
-              <label for="hospitalization" class="block text-sm text-left mb-2 font-medium ">Hospitalizations</label>
-              <textarea v-model="hospitalization" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='1'/>
-            </div>
-          </div>
-          <div class="flex flex-col gap-4">
-            <h4 class="text-center text-violet-600">Family History</h4>
-            <div>
-              <label for="parent" class="block text-sm text-left mb-2 font-medium ">Parent's Health Status</label>
-              <textarea v-model="parent" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
-            </div>
-            <div>
-              <label for="sibling" class="block text-sm text-left mb-2 font-medium ">Siblings Health Status</label>
-              <textarea v-model="sibling" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " rows='3'/>
-            </div>
-          </div> 
-          <div class="flex justify-end gap-4 h-10">
-              <button @click="openModal = true; openPatientInfo = false" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">back</button>
-          </div>
-          <div class="flex justify-start gap-4 h-10">
-              <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-1 px-4 rounded-md">next</button>
-          </div> 
-        </form>
-      </div>
-    </div>
+    
 </template>
 
 <script setup>
@@ -469,7 +422,8 @@
     import { ref } from 'vue';
     import { useAuthStore } from '@/stores/auth';
     import { usePatientModalStore } from '@/stores/patientModal';
-    import Register from '@/components/patients/EmergencyForm.vue';
+    import Emergency from '@/components/patients/EmergencyForm.vue';
+    import Scheduled from '@/components/patients/ScheduledCare.vue';
 
     const openModal = ref(false);
     const authStore = useAuthStore();
@@ -565,6 +519,11 @@
             if (reason.value === "emergency") {
                 modalStore.reset();
                 modalStore.emergencyModal();
+                openModal.value = false;
+            } else if (reason.value === "scheduled care") {
+                modalStore.reset();
+                modalStore.scheduledModal();
+                console.log(modalStore.getScheduled);
                 openModal.value = false;
             }
         }

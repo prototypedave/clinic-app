@@ -1,4 +1,7 @@
 <template>
+    <div v-if="alert.visible" class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded-md shadow-lg z-50">
+        {{ alert.message }}
+    </div>
 	<div v-if="openEmergency" class="fixed inset-0 z-40 flex justify-center items-center bg-violet-950 bg-opacity-50">
       	<div class="bg-violet-300 rounded-lg shadow-lg p-8 w-full max-w-2xl shadow text-violet-950">        
         	<h2 class="text-xl font-bold mb-4 text-center"> Patient Emergency Form </h2>
@@ -63,6 +66,7 @@
 
     const alert = ref({ visible: false, message: '' });
     const error = ref("");
+    
     function showAlert(message) {
         alert.value = { visible: true, message };
         setTimeout(() => {
