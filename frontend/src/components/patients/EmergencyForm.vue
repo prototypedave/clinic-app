@@ -92,6 +92,7 @@
         }
 
         if (check.value) {
+        	modalStore.reset();
             modalStore.vitalModal();
         }
     }
