@@ -530,9 +530,9 @@
 
             // poll backend
             const msg = await authStore.APICall({ body: body, api: backend });
-            showAlert(msg.message);
+            showAlert(msg.data.message);
             check.value = msg.success;
-            modalStore.setId({ id: msg.id });
+            modalStore.setId({ id: msg.data.id });
                 
         } else {
             // Adult Patient
@@ -556,9 +556,9 @@
             });
 
             const msg = await authStore.APICall({ body: body, api: backend });
-            showAlert(msg.message);
+            showAlert(msg.data.message);
             check.value = msg.success;
-            modalStore.setId({ id: msg.id });
+            modalStore.setId({ id: msg.data.id });
         }
 
         if (check.value) {

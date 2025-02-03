@@ -112,7 +112,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 		},
 
 		setId ({ id }) {
-			this.setId = id;
+			this.id = id;
 		}
 	},
 	getters: {

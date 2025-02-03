@@ -61,6 +61,15 @@
     const factors = ref('');
     const check = ref(false);
 
+    const alert = ref({ visible: false, message: '' });
+    const error = ref("");
+    function showAlert(message) {
+        alert.value = { visible: true, message };
+        setTimeout(() => {
+          alert.value.visible = false;
+        }, 3000); 
+    };
+
     async function getEmergencyData () {
         const backend = "patient/emergency-record";
 
@@ -77,7 +86,7 @@
 
             // poll backend
             const msg = await authStore.APICall({ body: body, api: backend });
-            showAlert(msg.message);
+            showAlert(msg.data.message);
             check.value = msg.success;
                 
         }

@@ -208,19 +208,19 @@ export const useAuthStore = defineStore('auth', {
                     const errorData = await response.json();
                     return { 
                         success: false,
-                        message: errorData.error,
+                        data: errorData,
                     };
                 }
 
                 const success = await response.json();
                 return {
                     success: true,
-                    message: success.message,
+                    data: success,
                 };
             } catch (error) {
                 return { 
                     success: false,
-                    message: error,
+                    data: error,
                 }; 
             }
         },
