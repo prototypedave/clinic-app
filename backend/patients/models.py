@@ -90,6 +90,7 @@ class PatientRecord(models.Model):
     severity = models.TextField(_('Severity of the symptoms'), null=True, blank=True)
     character = models.TextField(_('Character of Pain/Symptoms'), null=True, blank=True)
     factors = models.TextField(_('Aggreviating factors'), null=True, blank=True)
+    appointment = models.TextField(_('Reason for booking an appointment'), null=True, blank=True)
     visit_date = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -110,7 +111,20 @@ class PatientRecord(models.Model):
 
     def __str__(self):
         if self.patient:
-            return f"Record for Patient: {self.patient.get_full_name()}"
+            return f"Record for Patient: {self.patient.get_patient_name()}"
         elif self.dependant:
-            return f"Record for Dependant: {self.dependant.get_full_name()}"
+            return f"Record for Dependant: {self.dependant.get_dependant_name()}"
         return "Unassigned Record"
+    
+    def get_patient(self):
+        if self.patient:
+            return {
+                'patient': self.patient,
+                'model' : 'patient',
+            }
+        elif self.dependant:
+            return {
+                'patient' : self.dependant,
+                'model' : 'dependant',
+            }
+        return None

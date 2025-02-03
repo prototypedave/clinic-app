@@ -53,3 +53,11 @@ class EmergencyRecordSerializer(serializers.ModelSerializer):
             "complaint", "onset", "location", "severity",
             "character", "factors"
         ]
+
+
+class AppointmentRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientRecord
+        fields = [
+            "appointment"
+        ]
