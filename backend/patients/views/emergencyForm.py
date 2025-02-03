@@ -22,6 +22,7 @@ class EmergencyRecordView(APIView):
 
     def post(self, request):
         id = request.data.get("id")
+        print(id)
         if not id:
             return JsonResponse({"error": "Record ID is required"}, status=status.HTTP_400_BAD_REQUEST)
         

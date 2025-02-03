@@ -83,7 +83,6 @@ class RegisterPatient(APIView):
                 raise ValueError("Error Saving Patient Record Information", record.errors)
 
             instance = record.save()
-
             return JsonResponse({"message": "Patient Registered Successfully", "id": instance.id }, status=status.HTTP_200_OK)
 
         except Exception as e:
