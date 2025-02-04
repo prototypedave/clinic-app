@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Patient, PatientRecord, PatientDependant
+from .models import Patient, PatientRecord, PatientDependant, DiseaseManagementRecord
 from django.db import models
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -60,4 +60,12 @@ class AppointmentRecordSerializer(serializers.ModelSerializer):
         model = PatientRecord
         fields = [
             "appointment"
+        ]
+
+
+class DiseaseManagementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DiseaseManagementRecord
+        fields = [
+            "diagnosis", "dod", "smoking", "severity", "alcohol", "physical", "diet"
         ]
