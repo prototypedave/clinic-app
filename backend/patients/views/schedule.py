@@ -1,12 +1,13 @@
 from django.http import JsonResponse
 from django.db import transaction
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from ..models import PatientRecord, PatientDependant
 from ..serializers import AppointmentRecordSerializer
 import requests
-from django.conf import settings
+
 
 class SchedulePatientView(APIView):
     permission_classes = [IsAuthenticated]
@@ -21,7 +22,7 @@ class SchedulePatientView(APIView):
         try:
             record = PatientRecord.objects.get(id=record_id)
         except PatientRecord.DoesNotExist:
-            return JsonResponse({"error": "Record not found"}, status=status.HTTP_404_NOT_FOUND)
+            return JsonResponse({"message": "Record not found"}, status=status.HTTP_404_NOT_FOUND)
 
         patient_id = record.get_patient()
 
@@ -32,7 +33,7 @@ class SchedulePatientView(APIView):
                 try:
                     parent = PatientDependant.objects.get(id=patient_id.get('patient').id)
                 except PatientRecord.DoesNotExist:
-                    return JsonResponse({"error": "Record not found"}, status=status.HTTP_404_NOT_FOUND)
+                    return JsonResponse({"message": "Record not found"}, status=status.HTTP_404_NOT_FOUND)
 
             email = parent.email if parent.email else settings.EMAIL_HOST_USER
 
@@ -64,9 +65,9 @@ class SchedulePatientView(APIView):
                         return JsonResponse({"message": "Appointment booked successfully"}, status=status.HTTP_201_CREATED)
                     else:
                         transaction.set_rollback(True)
-                        return JsonResponse({"error": "Validation failed", "details": record.errors}, status=status.HTTP_400_BAD_REQUEST)
+                        return JsonResponse({"message": "Validation failed", "details": record.errors}, status=status.HTTP_400_BAD_REQUEST)
                 else:
                     transaction.set_rollback(True)
-                    return JsonResponse({"error": "Failed to book appointment", "details": response.json()}, status=response.status_code)
+                    return JsonResponse({"message": "Failed to book appointment", "details": response.json()}, status=response.status_code)
 
-        return JsonResponse({"error": "Something went wrong, patient not found"}, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({"message": "Something went wrong, patient not found"}, status=status.HTTP_400_BAD_REQUEST)
