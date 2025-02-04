@@ -1,5 +1,5 @@
 <template>
-    <div v-if="alert.visible" class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded-md shadow-lg z-50">
+    <div v-if="alert.visible" class="fixed top-4 right-4 bg-violet-500 text-white p-4 rounded-md shadow-lg z-50">
         {{ alert.message }}
     </div>
 	<div v-if="openScheduled" class="fixed inset-0 z-40 flex justify-center items-center bg-violet-950 bg-opacity-50">
@@ -33,10 +33,16 @@
                     </div>            		
             	</div>
                 <p v-if="notifyMessage" class="text-sm text-red-500 mt-1">{{ notifyMessage }}</p> 
-                <div class='w-full'>
-                        <label for="reference" class="block text-sm text-left mb-2 font-medium ">Reffered By</label>
+                <div class="flex justify-between gap-4">
+                    <div class='w-full'>
+                        <label for="reason" class="block text-sm text-left mb-2 font-medium ">Reason for appointment*</label>
+                        <textarea v-model="reason" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Brief description for booking an appointment'/>
+                    </div>
+                    <div class='w-full'>
+                        <label for="reference" class="block text-sm text-left mb-2 font-medium ">Referred By</label>
                         <input v-model="reference" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " placeholder='Reference name'/>
                     </div>
+                </div>
 	            <div class="flex justify-end gap-4 h-10">
 		            <button @click="openModal = true; openPatientInfo = false" type="button" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md focus:ring focus:ring-secondary-btn-fcs">back</button>
 		            <button type="submit" class="bg-violet-800 hover:bg-violet-950 text-white font-bold py-2 px-4 rounded-md">next</button>
@@ -64,6 +70,8 @@
     const end = ref('');
     const type = ref('');
     const reference = ref('');
+    const reason = ref('');
+    const check = ref(false);
 
     const minTime = ref('07:00');
     const maxTime = ref('20:00');
@@ -135,25 +143,23 @@
     };
 
     function isDayFullyBooked(date) {
-    const dayEvents = events.value.filter(event => event.start.startsWith(date));
-    dayEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
+        const dayEvents = events.value.filter(event => event.start.startsWith(date));
+        dayEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
 
-    let previousEnd = parseTimeToMinutes("07:00"); 
+        let previousEnd = parseTimeToMinutes("07:00"); 
 
-    for (const event of dayEvents) {
-        const eventStart = parseTimeToMinutes(event.start.slice(11));
-        const eventEnd = parseTimeToMinutes(event.end.slice(11));
+        for (const event of dayEvents) {
+            const eventStart = parseTimeToMinutes(event.start.slice(11));
+            const eventEnd = parseTimeToMinutes(event.end.slice(11));
 
-        // If there is a gap between the previous event end and the current event start
-        if (eventStart > previousEnd) {
-            return false;
-        }
+            if (eventStart > previousEnd) {
+                return false;
+            }
         previousEnd = Math.max(previousEnd, eventEnd);
-    }
+        }
 
-    // Ensure the last event reaches the end of the day (20:59)
-    return previousEnd >= parseTimeToMinutes("20:59");
-}
+        return previousEnd >= parseTimeToMinutes("20:59");
+    };
 
 
     function disableDate () {
@@ -171,35 +177,28 @@
     function showAlert(message) {
         alert.value = { visible: true, message };
         setTimeout(() => {
-          alert.value.visible = false;
+            alert.value.visible = false;
         }, 3000); 
     };
 
     async function getAppointmentData () {
         const backend = "patient/appointment-record";
-
-        if (complaint.value && onset.value) { 
+        if (end.value && start.value) {
             const body = JSON.stringify({
-                "complaint": complaint.value,
-                "onset": onset.value,
-                "location": location.value,
-                "severity": severity.value,
-                "character": character.value,
-                "factors" : factors.value,
                 "id" : modalStore.getId,
+                "start" : `${date.value} ${start.value}`,
+                "end" : `${date.value} ${end.value}`,
+                "type" : type.value,
+                "reason" : reason.value,
             });
 
-            // poll backend
             const msg = await authStore.APICall({ body: body, api: backend });
-            showAlert(msg.data.message);
-            check.value = msg.success;
-                
+                showAlert(msg.data.message);
+                setTimeout(() => {
+                    modalStore.reset();
+                }, 3000);     
         }
-
-        if (check.value) {
-        	modalStore.reset();
-            modalStore.vitalModal();
-        }
+        
     }
 
 </script>
