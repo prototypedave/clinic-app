@@ -80,9 +80,20 @@ class PatientDependant(models.Model):
         )
 
 
+class DiseaseManagementRecord(models.Model):
+    diagnosis = models.CharField(_('Diagnosis'), null=False, blank=False)
+    dod = models.DateField(_('Date of Diagnosis'))
+    smoking = models.TextField(_('Smoking Status'), null=True, blank=True)
+    severity = models.CharField(_('Severity of the Disease'), null=False, blank=False)
+    alcohol = models.TextField(_('Alcohol Status'), null=True, blank=True)
+    physical = models.TextField(_('Physical Activities'), null=True, blank=True)
+    diet = models.TextField(_('Diet'), null=True, blank=True)
+
+
 class PatientRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient', null=True, blank=True)
     dependant = models.ForeignKey(PatientDependant, on_delete=models.CASCADE, related_name='dependant', null=True, blank=True)
+    management = models.ForeignKey(DiseaseManagementRecord, on_delete=models.CASCADE, related_name='management')
     reason = models.TextField(_('Reason for visit'), null=False, blank=False)
     complaint = models.TextField(_('Chief Complaint'), null=True, blank=True)
     onset = models.TextField(_('Onset of Symptoms'), null=True, blank=True)
@@ -128,3 +139,5 @@ class PatientRecord(models.Model):
                 'model' : 'dependant',
             }
         return None
+    
+
