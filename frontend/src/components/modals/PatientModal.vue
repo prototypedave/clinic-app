@@ -412,6 +412,7 @@
 
     <Emergency />
     <Scheduled />
+    <DiseaseManagement />
     
 
     
@@ -424,6 +425,7 @@
     import { usePatientModalStore } from '@/stores/patientModal';
     import Emergency from '@/components/patients/EmergencyForm.vue';
     import Scheduled from '@/components/patients/ScheduledCare.vue';
+    import DiseaseManagement from '@/components/patients/DiseaseManagement.vue';
 
     const openModal = ref(false);
     const authStore = useAuthStore();
@@ -524,6 +526,11 @@
                 modalStore.reset();
                 modalStore.scheduledModal();
                 console.log(modalStore.getScheduled);
+                openModal.value = false;
+            } else if (reason.value === "disease management") {
+                modalStore.reset();
+                modalStore.managementModal();
+                console.log(modalStore.getManagement);
                 openModal.value = false;
             }
         }
