@@ -8,6 +8,7 @@
         	<p class="text-center text-violet-500 mb-4"> Please fill in all the required fields * </p>
         	<form @submit.prevent="getAppointmentData" class="flex flex-col gap-4">
           		<div class="flex justify-between gap-4">
+                    <p v-if="dateMessage" class="text-sm text-red-500 mt-1">{{ dateMessage }}</p> 
                     <div class='w-full'>
                         <label for="type" class="block text-sm text-left mb-2 font-medium ">Appointment Type*</label>
                         <select v-model="type" type="text" class="mt-1 pl-2 block w-full text-sm py-1 border bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required>
@@ -21,7 +22,7 @@
                 		<input v-model="date" type="date" class="mt-1 pl-2 block w-full text-sm py-2 bg-violet-200 focus:border-violet-950 rounded-md shadow-sm" required :min="minDate" @change='disableDate'/>
               		</div>
             	</div>
-                <p v-if="dateMessage" class="text-sm text-red-500 mt-1">{{ dateMessage }}</p> 
+                <p v-if="notifyMessage" class="text-sm text-red-500 mt-1">{{ notifyMessage }}</p>
             	<div class="flex justify-between gap-4">
               		<div class='w-full'>
                         <label for="start" class="block text-sm text-left mb-2 font-medium ">Start time*</label>
@@ -31,8 +32,7 @@
                         <label for="end" class="block text-sm text-left mb-2 font-medium ">End time*</label>
                         <input v-model="end" type="time" class="mt-1 pl-2 block w-full text-sm py-2 border  bg-violet-200 focus:border-violet-950 rounded-md shadow-sm " required :disabled="!date || !start" @input="validateEndTime"/>
                     </div>            		
-            	</div>
-                <p v-if="notifyMessage" class="text-sm text-red-500 mt-1">{{ notifyMessage }}</p> 
+            	</div> 
                 <div class="flex justify-between gap-4">
                     <div class='w-full'>
                         <label for="reason" class="block text-sm text-left mb-2 font-medium ">Reason for appointment*</label>
@@ -64,7 +64,6 @@
     const eventStore = useCalendarStore();
     const openScheduled = computed(() => modalStore.getScheduled);
 
-
     const date = ref('');
     const start = ref('');
     const end = ref('');
@@ -72,9 +71,6 @@
     const reference = ref('');
     const reason = ref('');
     const check = ref(false);
-
-    const minTime = ref('07:00');
-    const maxTime = ref('20:00');
 
     const notifyMessage = ref('');
     const dateMessage = ref('');
@@ -194,11 +190,24 @@
 
             const msg = await authStore.APICall({ body: body, api: backend });
                 showAlert(msg.data.message);
+                await eventStore.getEvents(authStore.getAccessToken);
                 setTimeout(() => {
                     modalStore.reset();
+                    reset();
                 }, 3000);     
         }
         
+    }
+
+    function reset () {
+        date.value = '';
+        start.value = '';
+        end.value = '';
+        type.value = '';
+        reference.value = '';
+        reason.value = '';
+        check.value = false;
+
     }
 
 </script>
