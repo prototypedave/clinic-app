@@ -189,12 +189,16 @@
             });
 
             const msg = await authStore.APICall({ body: body, api: backend });
+            if (msg.success) {
                 showAlert(msg.data.message);
                 await eventStore.getEvents(authStore.getAccessToken);
                 setTimeout(() => {
                     modalStore.reset();
                     reset();
-                }, 3000);     
+                }, 3000);
+            } else {
+                showAlert(msg.data.error);
+            }    
         }
         
     }

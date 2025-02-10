@@ -525,12 +525,10 @@
             } else if (reason.value === "scheduled care") {
                 modalStore.reset();
                 modalStore.scheduledModal();
-                console.log(modalStore.getScheduled);
                 openModal.value = false;
             } else if (reason.value === "disease management") {
                 modalStore.reset();
                 modalStore.managementModal();
-                console.log(modalStore.getManagement);
                 openModal.value = false;
             }
         }

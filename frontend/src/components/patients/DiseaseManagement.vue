@@ -101,8 +101,15 @@
 
             // poll backend
             const msg = await authStore.APICall({ body: body, api: backend });
-            showAlert(msg.data.message);
-                
+            if (msg.success) {
+                showAlert(msg.data.message);
+                setTimeout(() => {
+                    modalStore.reset();
+                    //modalStore.medicationManagementModal();
+                }, 3000 );              
+            } else {
+                showAlert(msg.data.error);
+            }
         }
     }
 
