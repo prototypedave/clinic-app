@@ -75,5 +75,5 @@ class MaternitySerializer(serializers.ModelSerializer):
     class Meta:
         model = MaternityCareRecord
         fields = [
-            "edd", "gravidity", "parity", "lmc", "ppc", "pbc", "place_of_birth", "pain_management"
+            "edd", "gravidity", "parity", "lmp", "ppc", "pbc", "place_of_birth", "pain_management"
         ]

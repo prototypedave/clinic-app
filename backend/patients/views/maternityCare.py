@@ -2,21 +2,24 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from ..serializers import EmergencyRecordSerializer
+from ..serializers import MaternitySerializer
 from ..models import PatientRecord
 
 
 def SerializerData(data):
     return {
-        "complaint" : data.get("complaint"),
-        "onset" : data.get("onset"),
-        "location" : data.get("location"),
-        "severity" : data.get("severity"),
-        "character" : data.get("character"),
-        "factors" : data.get("factors"),
+        "edd" : data.get("edd"),
+        "gravidity" : data.get("gravidity"),
+        "parity" : data.get("parity"),
+        "lmp" : data.get("lmp"),
+        "ppc" : data.get("ppc"),
+        "pbc" : data.get("pbc"),
+        "place_of_birth" : data.get("place_of_birth"),
+        "pain_management" : data.get("pain_management")
     }
 
-class DiseaseRecordView(APIView):
+
+class MaternityCareRecordView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -31,7 +34,7 @@ class DiseaseRecordView(APIView):
         except PatientRecord.DoesNotExist:
             return JsonResponse({"error": "Record not found"}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = EmergencyRecordSerializer(record, data=request.data, partial=True)  
+        serializer = MaternitySerializer(record, data=request.data, partial=True)  
         if serializer.is_valid():
             serializer.save()
             return JsonResponse({"message": "Emergency record updated successfully"}, status=status.HTTP_200_OK)
