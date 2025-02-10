@@ -530,6 +530,10 @@
                 modalStore.reset();
                 modalStore.managementModal();
                 openModal.value = false;
+            } else if (reason.value === "maternity care") {
+                modalStore.reset();
+                modalStore.maternityModal();
+                openModal.value = false;
             }
         }
     }

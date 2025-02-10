@@ -91,7 +91,7 @@
                 "edd": edd.value,
                 "gravidity": gravidity.value,
                 "parity": parity.value,
-                "lmc": lmc.value,
+                "lmp": lmp.value,
                 "ppc": ppc.value,
                 "pbc" : pbc.value,
                 "place_of_birth" : place.value,
