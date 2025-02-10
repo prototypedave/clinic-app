@@ -11,6 +11,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 		openRegister: false,
 		id: null,
 		vitals: false,
+		medicationManagement: false,
 	}),
 	actions: {
 		reset () {
@@ -23,6 +24,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openConsultation = false;
 			this.openRegister = false;
 			this.vitals = false
+			this.medicationManagement = false
 		},
 
 		emergencyModal () {
@@ -61,6 +63,10 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.vitals = true;
 		},
 
+		medicationManagementModal () {
+			this.medicationManagement = true;
+		},
+
 		setId ({ id }) {
 			this.id = id;
 		}
@@ -76,5 +82,6 @@ export const usePatientModalStore = defineStore('patientModal', {
 		getRegister: (state) => state.openRegister,
 		getId: (state) => state.id,
 		getVitals: (state) => state.vitals,
+		getMedicationManagement: (state) => state.medicationManagement,
 	},
 });
