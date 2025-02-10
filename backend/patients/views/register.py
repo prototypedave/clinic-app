@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from ..serializers import PatientSerializer, DependantSerializer, RecordSerializer
+from ..models import Patient, PatientDependant
 
 
 def convert_request_to_patient_object(data):
@@ -44,26 +45,25 @@ class RegisterPatient(APIView):
     @transaction.atomic
     def post(self, request):
         req_data = request.data
-
         if not req_data:
             return JsonResponse({"error": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
-
+        
         try:
             patient_data = convert_request_to_patient_object(req_data)
             patient = PatientSerializer(data=patient_data)
 
             if not patient.is_valid():
-                return JsonResponse({"error": "Error Saving Patient Details", "details": patient.errors}, status=status.HTTP_400_BAD_REQUEST)
+                return JsonResponse({"error": patient.errors }, status=status.HTTP_400_BAD_REQUEST)
 
             instance = patient.save()
-
+            
             # Check if the patient is a dependant
             if req_data.get("guardian"):
                 dependant_data = retrieve_dependant_data(data=req_data, id=instance.id)
                 dependant = DependantSerializer(data=dependant_data)
 
                 if not dependant.is_valid():
-                    raise ValueError("Error Saving Dependant Details", dependant.errors)
+                    raise ValueError(dependant.errors)
 
                 dependant_instance = dependant.save()
                 record_data = {
@@ -80,11 +80,12 @@ class RegisterPatient(APIView):
             # Create a new record
             record = RecordSerializer(data=record_data)
             if not record.is_valid():
-                raise ValueError("Error Saving Patient Record Information", record.errors)
+                raise ValueError(record.errors)
 
             instance = record.save()
             return JsonResponse({"message": "Patient Registered Successfully", "id": instance.id }, status=status.HTTP_200_OK)
 
         except Exception as e:
-            transaction.set_rollback(True)  
+            transaction.set_rollback(True) 
+            print(str(e)) 
             return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
