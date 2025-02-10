@@ -87,10 +87,10 @@
     async function getDiseaseData () {
         const backend = "patient/disease-management-record";
 
-        if (complaint.value && onset.value) { 
+        if (diagnosis.value && dod.value) { 
             const body = JSON.stringify({
                 "diagnosis": diagnosis.value,
-                "date": date.value,
+                "date": dod.value,
                 "smoking": smoking.value,
                 "severity": severity.value,
                 "alcohol": alcohol.value,
