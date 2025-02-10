@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Patient, PatientRecord, PatientDependant, DiseaseManagementRecord
+from .models import Patient, PatientRecord, PatientDependant, DiseaseManagementRecord, MaternityCareRecord
 from django.db import models
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -68,4 +68,12 @@ class DiseaseManagementSerializer(serializers.ModelSerializer):
         model = DiseaseManagementRecord
         fields = [
             "diagnosis", "dod", "smoking", "severity", "alcohol", "physical", "diet"
+        ]
+
+
+class MaternitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MaternityCareRecord
+        fields = [
+            "edd", "gravidity", "parity", "lmc", "ppc", "pbc", "place_of_birth", "pain_management"
         ]
