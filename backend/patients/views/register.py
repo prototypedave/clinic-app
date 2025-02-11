@@ -4,7 +4,6 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from ..serializers import PatientSerializer, DependantSerializer, RecordSerializer
-from ..models import Patient, PatientDependant
 
 
 def convert_request_to_patient_object(data):

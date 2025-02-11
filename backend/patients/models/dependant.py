@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 from patient import Patient
 
+
 class PatientDependant(models.Model):
     class GenderChoices(models.TextChoices):
         """ Ensures only this fields can be provided """
