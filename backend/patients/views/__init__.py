@@ -3,6 +3,7 @@ from .emergencyForm import EmergencyRecordView
 from .schedule import SchedulePatientView
 from .disease import DiseaseRecordView
 from .maternityCare import MaternityCareRecordView
+from .rehabilitation import RehabilitationRecordView
 
 __all__ = [
     "RegisterPatient",
@@ -10,4 +11,5 @@ __all__ = [
     "SchedulePatientView",
     "DiseaseRecordView",
     "MaternityCareRecordView",
+    "RehabilitationRecordView",
 ]
