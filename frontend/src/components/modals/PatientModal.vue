@@ -413,6 +413,8 @@
     <Emergency />
     <Scheduled />
     <DiseaseManagement />
+    <Maternity />
+    <Rehabilitation />
     
 
     
@@ -426,6 +428,8 @@
     import Emergency from '@/components/patients/EmergencyForm.vue';
     import Scheduled from '@/components/patients/ScheduledCare.vue';
     import DiseaseManagement from '@/components/patients/DiseaseManagement.vue';
+    import Maternity from '@/components/patients/MaternityForm.vue';
+    import Rehabilitation form '@/components/patients/Rehabilitation.vue';
 
     const openModal = ref(false);
     const authStore = useAuthStore();
@@ -518,22 +522,18 @@
         }
 
         if (check.value) {
+            openModal.value = false;
+            modalStore.reset();
             if (reason.value === "emergency") {
-                modalStore.reset();
                 modalStore.emergencyModal();
-                openModal.value = false;
             } else if (reason.value === "scheduled care") {
-                modalStore.reset();
                 modalStore.scheduledModal();
-                openModal.value = false;
             } else if (reason.value === "disease management") {
-                modalStore.reset();
                 modalStore.managementModal();
-                openModal.value = false;
             } else if (reason.value === "maternity care") {
-                modalStore.reset();
                 modalStore.maternityModal();
-                openModal.value = false;
+            } else if (reason.value === 'rehabilitation') {
+                modalStore.rehabilitationModal();
             }
         }
     }

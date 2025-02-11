@@ -95,7 +95,7 @@
                 "ppc": ppc.value,
                 "pbc" : pbc.value,
                 "place_of_birth" : place.value,
-                "pain_management" : pain.value
+                "pain_management" : pain.value,
                 "id" : modalStore.getId,
             });
 
