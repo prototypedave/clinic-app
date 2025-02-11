@@ -101,11 +101,18 @@ class MaternityCareRecord(models.Model):
     pain_management = models.CharField(_('Preferred Pain Management'), null=True, blank=True)
 
 
+class RehabilitationRecord(models.Model):
+    diagnosis = models.CharField(_('Diagnosis'), max_length=50, null=False, blank=False)
+    injury_date = models.DateField(_('Onset'))
+    injury_type = models.CharField(_('Condition of INJURY'), max_length=100, null=False, blank=False)
+
+
 class PatientRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient', null=True, blank=True)
     dependant = models.ForeignKey(PatientDependant, on_delete=models.CASCADE, related_name='dependant', null=True, blank=True)
     management = models.ForeignKey(DiseaseManagementRecord, on_delete=models.CASCADE, related_name='management', null=True, blank=True)
     maternity = models.ForeignKey(MaternityCareRecord, on_delete=models.CASCADE, related_name='maternity', null=True, blank=True)
+    injuries = models.ForeignKey(RehabilitationRecord, on_delete=models.CASCADE, related_name='injuries', null=True, blank=True)
     reason = models.TextField(_('Reason for visit'), null=False, blank=False)
     complaint = models.TextField(_('Chief Complaint'), null=True, blank=True)
     onset = models.TextField(_('Onset of Symptoms'), null=True, blank=True)
