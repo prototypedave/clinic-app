@@ -27,3 +27,27 @@ class AppointmentRecordSerializer(serializers.ModelSerializer):
         fields = [
             "appointment"
         ]
+
+
+class InjurySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientRecord
+        fields = [
+            "injuries"
+        ]
+
+
+class MaternitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientRecord
+        fields = [
+            "maternity"
+        ]
+
+
+class ManagementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientRecord
+        fields = [
+            "management"
+        ]
