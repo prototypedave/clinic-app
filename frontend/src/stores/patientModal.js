@@ -13,6 +13,7 @@ export const usePatientModalStore = defineStore('patientModal', {
 		vitals: false,
 		medicationManagement: false,
 		lab: false,
+		openTreatmentPlan: false,
 	}),
 	actions: {
 		reset () {
@@ -24,9 +25,10 @@ export const usePatientModalStore = defineStore('patientModal', {
 			this.openPalliative = false;
 			this.openConsultation = false;
 			this.openRegister = false;
-			this.vitals = false
-			this.medicationManagement = false
-			this.lab = false
+			this.vitals = false;
+			this.medicationManagement = false;
+			this.lab = false;
+			this.openTreatmentPlan = false;
 		},
 
 		emergencyModal () {
@@ -75,6 +77,10 @@ export const usePatientModalStore = defineStore('patientModal', {
 
 		labModal () {
 			this.lab = true;
+		},
+
+		treatmentPlan () {
+			this.openTreatmentPlan = true;
 		}
 	},
 	getters: {
@@ -90,5 +96,6 @@ export const usePatientModalStore = defineStore('patientModal', {
 		getVitals: (state) => state.vitals,
 		getMedicationManagement: (state) => state.medicationManagement,
 		getLab: (state) => state.lab,
+		getTreatmentPlan: (state) => state.openTreatmentPlan,
 	},
 });
