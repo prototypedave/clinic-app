@@ -72,7 +72,7 @@
         }, 3000); 
     };
 
-    async function getRehabData () {
+    async function getVitalSigns () {
         const backend = "patient/vitals-record";
 
         if (temp.value) { 
