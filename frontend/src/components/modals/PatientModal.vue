@@ -105,7 +105,6 @@
                             <option value="disease management">Disease Management</option>
                             <option value="maternity care">Maternity Care</option>
                             <option value="rehabilitation">Rehabilitation</option>
-                            <option value="palliative care">Palliative Care</option>
                             <option value="consultation">Consultation</option>
                         </select> 
                     </div>
@@ -429,7 +428,7 @@
     import Scheduled from '@/components/patients/ScheduledCare.vue';
     import DiseaseManagement from '@/components/patients/DiseaseManagement.vue';
     import Maternity from '@/components/patients/MaternityForm.vue';
-    import Rehabilitation form '@/components/patients/Rehabilitation.vue';
+    import Rehabilitation from '@/components/patients/Rehabilitation.vue';
 
     const openModal = ref(false);
     const authStore = useAuthStore();

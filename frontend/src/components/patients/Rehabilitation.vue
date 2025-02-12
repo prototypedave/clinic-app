@@ -9,7 +9,7 @@
         	<form @submit.prevent="getRehabData" class="flex flex-col gap-4">
       			<div class='w-full'>
             		<label for="diagnosis" class="block text-sm text-left mb-2 font-medium">Diagnosis*</label>
-            		<input v-model="diagnosis" type="text" class="mt-1 pl-2 block w-full text-sm py-2 bg-violet-200 focus:border-violet-950 rounded-md shadow-sm" required />
+            		<input v-model="diagnosis" type="text" class="mt-1 pl-2 block w-full text-sm py-2 bg-violet-200 focus:border-violet-950 rounded-md shadow-sm" required placeholder="orthopedic injury" />
               	</div>
         		<div class='w-full'>
             		<label for="doi" class="block text-sm text-left mb-2 font-medium ">Date of Injury / Condition*</label>
@@ -38,7 +38,7 @@
     const modalStore = usePatientModalStore();
     const openRehabilitation = computed(() => modalStore.getRehabilitation);
 
-    const dignosis = ref('');
+    const diagnosis = ref('');
     const doi = ref('');
     const type = ref('');
 
