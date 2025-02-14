@@ -7,5 +7,6 @@ urlpatterns = [
     path("appointment-record", views.SchedulePatientView.as_view(), name="patient-appointments"),
     path("disease-management-record", views.DiseaseRecordView.as_view(), name="disease-management"),
     path("maternity-record", views.MaternityCareRecordView.as_view(), name="maternity-care"),
-    path("rehabilitation-record", views.RehabilitationRecordView.as_view(), name="rehab")
+    path("rehabilitation-record", views.RehabilitationRecordView.as_view(), name="rehab"),
+    path("vitals-record", views.VitalsRecordView.as_view(), name="vital"),
 ]

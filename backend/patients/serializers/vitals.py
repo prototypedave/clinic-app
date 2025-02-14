@@ -9,6 +9,6 @@ class VitalSerializer(serializers.ModelSerializer):
         model = VitalsModel
         fields = [
             'temperature', 'pulse', 'blood_pressure', 'respiratory_rate',
-            'weight', 'height', 'neurological', 'respiratory', 'cardiovascular', 'gastrointenstinal',
-            'musculoskeleton', 'skin', 'pyschological', 'pain', 'fall_risl'
+            'weight', 'height', 'neurological', 'respiratory', 'cardiovascular', 'gastrointestinal',
+            'musculoskeleton', 'skin', 'pyschological', 'pain', 'fall_risk'
         ]
