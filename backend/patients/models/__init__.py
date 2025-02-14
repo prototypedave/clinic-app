@@ -5,6 +5,7 @@ from .maternity import MaternityCareRecord
 from .records import PatientRecord
 from .rehab import RehabilitationRecord
 from .vitals import VitalsModel
+from .treatment import TreatmentPlanModel
 
 
 __all__ = [
@@ -14,5 +15,6 @@ __all__ = [
     "MaternityCareRecord",
     "PatientRecord",
     "RehabilitationRecord",
-    "VitalsModel"
+    "VitalsModel",
+    "TreatmentPlanModel",
 ]
