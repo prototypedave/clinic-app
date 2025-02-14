@@ -5,6 +5,7 @@ from .patient import PatientSerializer
 from .records import RecordSerializer, EmergencyRecordSerializer, AppointmentRecordSerializer
 from .rehab import RehabilitationSerializer
 from .vitals import VitalSerializer
+from .treatment import TreatmentPlanSerializer
 
 __all__ = [
     "DependantSerializer",
@@ -16,4 +17,5 @@ __all__ = [
     "EmergencyRecordSerializer",
     "AppointmentRecordSerializer",
     "VitalSerializer",
+    "TreatmentPlanSerializer",
 ]

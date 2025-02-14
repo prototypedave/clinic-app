@@ -9,4 +9,5 @@ urlpatterns = [
     path("maternity-record", views.MaternityCareRecordView.as_view(), name="maternity-care"),
     path("rehabilitation-record", views.RehabilitationRecordView.as_view(), name="rehab"),
     path("vitals-record", views.VitalsRecordView.as_view(), name="vital"),
+    path("plan-record", views.TreatmentPlanView.as_view(), name="plan"),
 ]

@@ -7,7 +7,7 @@ from .disease import DiseaseManagementRecord
 from .maternity import MaternityCareRecord
 from .rehab import RehabilitationRecord
 from .vitals import VitalsModel
-
+from .treatment import TreatmentPlanModel
 
 class PatientRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient', null=True, blank=True)
@@ -16,6 +16,7 @@ class PatientRecord(models.Model):
     maternity = models.ForeignKey(MaternityCareRecord, on_delete=models.CASCADE, related_name='maternity', null=True, blank=True)
     injuries = models.ForeignKey(RehabilitationRecord, on_delete=models.CASCADE, related_name='injuries', null=True, blank=True)
     vitals = models.ForeignKey(VitalsModel, on_delete=models.CASCADE, related_name='vital', null=True, blank=True)
+    treatment = models.ForeignKey(TreatmentPlanModel, on_delete=models.CASCADE, related_name='treatmentPlan', null=True, blank=True)
     reason = models.TextField(_('Reason for visit'), null=False, blank=False)
     complaint = models.TextField(_('Chief Complaint'), null=True, blank=True)
     onset = models.TextField(_('Onset of Symptoms'), null=True, blank=True)
