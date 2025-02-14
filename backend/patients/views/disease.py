@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from ..serializers import EmergencyRecordSerializer
+from ..serializers import DiseaseManagementSerializer
 from ..models import PatientRecord
 
 
@@ -31,7 +31,7 @@ class DiseaseRecordView(APIView):
         except PatientRecord.DoesNotExist:
             return JsonResponse({"error": "Record not found"}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = EmergencyRecordSerializer(record, data=request.data, partial=True)  
+        serializer = DiseaseManagementSerializer(record, data=request.data, partial=True)  
         if serializer.is_valid():
             serializer.save()
             return JsonResponse({"message": "Emergency record updated successfully"}, status=status.HTTP_200_OK)

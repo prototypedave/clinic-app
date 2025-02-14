@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
-from patient import Patient
+from .patient import Patient
 
 
 class PatientDependant(models.Model):

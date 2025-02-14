@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
-from patient import Patient
-from dependant import PatientDependant
-from disease import DiseaseManagementRecord
-from maternity import MaternityCareRecord
-from rehab import RehabilitationRecord
+from .patient import Patient
+from .dependant import PatientDependant
+from .disease import DiseaseManagementRecord
+from .maternity import MaternityCareRecord
+from .rehab import RehabilitationRecord
 
 
 class PatientRecord(models.Model):
