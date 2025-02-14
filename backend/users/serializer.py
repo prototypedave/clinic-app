@@ -11,13 +11,9 @@ class AdminRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password', 'confirm_password']
+        fields = ['first_name', 'last_name', 'email', 'password']
 
     def validate(self, data):
-        # Check if passwords match
-        if data['password'] != data['confirm_password']:
-            raise serializers.ValidationError({"password": "Passwords do not match."})
-
         # Check if a superuser already exists
         if User.objects.filter(is_superuser=True).exists():
             raise serializers.ValidationError({

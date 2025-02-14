@@ -4,7 +4,7 @@ from . import views
 from .views import PasswordResetView
 
 urlpatterns = [
-    path("admin-registration", views.AdminRegistrationView.as_view(), name='admin-register'),
+    path("admin-registration", views.AdminRegistrationView.as_view(), name='admin-registration'),
     path('superuser-check/', views.SuperuserCheckView.as_view(), name='superuser-check'),
     path('login', views.LoginView.as_view(), name='login'),
     path('logout', views.LogoutView.as_view(), name='logout'),
